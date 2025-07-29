@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from db_models import User, Recipe, Instruction, Ingredient
+from backend.database.db_models import User, Recipe, Instruction, Ingredient
 from sqlalchemy import text
 
 def create_user(db: Session, firstname: str, lastname: str, email: str):

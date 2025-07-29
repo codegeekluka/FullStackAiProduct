@@ -1,8 +1,35 @@
-fastapi==0.104.1
-uvicorn==0.24.0
-sqlalchemy==2.0.23
-psycopg2-binary==2.9.9
-alembic==1.12.1
-requests==2.31.0
-extruct==0.16.0
-pydantic==2.5.0 
+# =====================
+# FastAPI dependencies
+# =====================
+fastapi==0.116.1           # Web API framework
+uvicorn==0.35.0            # ASGI server for FastAPI
+pydantic==2.11.7           # Data validation/models (used by FastAPI)
+python-multipart           # File uploads (FastAPI)
+
+# =====================
+# Database dependencies
+# =====================
+sqlalchemy==2.0.41         # ORM/database access
+alembic==1.16.4            # Database migrations
+psycopg2==2.9.10           # PostgreSQL driver (already installed)
+
+# =====================
+# Scraping dependencies
+# =====================
+requests==2.32.4           # HTTP requests (API calls, scraping)
+extruct==0.18.0            # Web scraping metadata extraction
+
+# =====================
+# Authentication & Security
+# =====================
+passlib                    # Password hashing (auth)
+python-jose                # JWTs (auth/authorization)
+cryptography               # Crypto primitives (used by python-jose, passlib)
+bcrypt                     # Password hashing algorithm (used by passlib)
+
+# =====================
+# Utilities/Other
+# =====================
+# (Add any other general-purpose or utility libraries here)
+
+# to install: pip install -r requirements.txt (make sure in backend directory)

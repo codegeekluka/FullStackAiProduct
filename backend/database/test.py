@@ -1,5 +1,5 @@
 from crud import create_user, delete_all_user_data, create_recipe, get_recipes_by_user, create_ingredient
-from db_models import Session
+from backend.database.db_models import Session
 
 
 db = Session()  # Create a new session

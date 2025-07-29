@@ -1,10 +1,7 @@
-from sqlalchemy import create_engine, ForeignKey, Column, String, Integer, CHAR
-from sqlalchemy.orm import relationship, sessionmaker, declarative_base
-from migrations.config import DATABASE_URL
+from sqlalchemy import ForeignKey, Column, String, Integer, CHAR
+from sqlalchemy.orm import relationship
+from backend.database.database import Base
 
-Base = declarative_base()
-engine = create_engine(DATABASE_URL)
-Session = sessionmaker(bind=engine)
 
 class BaseModel(Base):
     __abstract__ =True
@@ -15,7 +12,7 @@ class BaseModel(Base):
 class Recipe(BaseModel):
     __tablename__ = "recipe"
 
-    title = Column("title", String)
+    title = Column("title", String, index=True) #index speeds up recipe queries that filter by title
     user_id = Column(ForeignKey("user.id"))
 
     # Relationships with cascade delete for data integrity
@@ -34,9 +31,11 @@ class Recipe(BaseModel):
 class User(BaseModel):
     __tablename__ = "user"
 
+    username = Column("username", String, index=True)
+    hashed_password = Column(String) #using bycrypt algorithm to hash
     firstname = Column("first_name", String)
     lastname = Column("last_name", String)
-    email = Column("email", String)
+    email = Column("email", String, unique=True)
     recipes = relationship(Recipe, cascade="all, delete-orphan")
 
     def __repr__ (self): #how we want to represent the data/print it
