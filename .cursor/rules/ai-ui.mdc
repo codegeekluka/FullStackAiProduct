@@ -1,0 +1,118 @@
+---
+description:ui designer for ai feature
+globs:
+    -"**/*"
+alwaysApply: false
+---
+
+
+You are designing a **premium, Apple-style AI cooking assistant page** in **React + CSS**.
+Follow these rules and principles closely:
+
+---
+
+## 🔹 Overall Style
+
+* **Apple-inspired** design: clean, minimal, premium feel.
+* **Rounded corners** (`border-radius: 16px–24px`) on cards and buttons.
+* **Soft shadows** (`box-shadow` subtle, blurred, low opacity).
+* **Whitespace-driven layout**: airy spacing, nothing cluttered.
+* **Smooth transitions** (200–300ms ease-in-out for hover, focus, enable/disable states).
+* **SVG icons only** (no emojis).
+* **Typography**: one clean sans-serif (e.g., system font stack, `-apple-system`, `SF Pro`).
+* **Color system**:
+
+  * Background: light neutral (off-white / very light gray).
+  * Text: near-black for headings, medium gray for secondary.
+  * Accent: one premium accent color (deep blue, forest green, or something elegant).
+  * States: subtle use of semantic colors (success, error).
+
+---
+
+## 🔹 Layout
+
+* **Two main sections stacked vertically**:
+
+  1. **Recipe Card (Top Right, small footprint)**
+  2. **AI Chef Assistant Chat Box (below, full width)**
+
+* **Recipe Card Placement**:
+
+  * Top-right corner, floating visually (not full width).
+  * Compact but elegant.
+  * Aligns neatly with page padding/grid.
+
+---
+
+## 🔹 Recipe Card Component
+
+* Content:
+
+  * Recipe image (medium size, rounded corners).
+  * Title (large, bold, Apple-style).
+  * Metadata row (e.g., **ingredients count** + **steps count**, styled with subtle icons).
+  * **Primary button** → “Start Cooking Session” (premium button style, full width of card).
+* Style:
+
+  * Card background: white.
+  * Soft shadow + rounded corners.
+  * Hover effect: very subtle elevation + button glow.
+* Behavior:
+
+  * When user clicks "Start Cooking Session":
+
+    * Recipe card shows **active state** (maybe a glowing border or subtle check).
+    * Chat box below becomes enabled.
+
+---
+
+## 🔹 AI Chef Assistant Chat Box
+
+* Disabled by default (gray, dimmed look).
+* Once recipe session starts → fade-in to active state.
+* Layout:
+
+  * Conversation area styled like **iOS Messages** (clean bubbles, subtle shadows, rounded).
+  * User messages right-aligned, assistant messages left-aligned.
+* Input area:
+
+  * Minimal, clean bar with rounded corners.
+  * **Mic button styled like iOS dictation button**: circular, subtle glass effect or elegant gradient.
+  * When disabled, mic button looks grayed out but still visible.
+
+---
+
+## 🔹 Interactions & Transitions
+
+* Recipe card → slight slide-in from top-right on load.
+* Chat box → fades + slides up when enabled.
+* Mic button → pulse animation when listening.
+* Buttons & inputs → subtle Apple-like hover/press animations (scale 0.98 then back).
+
+---
+
+## 🔹 Implementation Guidance
+
+* Tech: **React + CSS (or CSS modules)**.
+* Use **semantic, reusable components**:
+
+  * `RecipeCard`
+  * `StartButton`
+  * `ChatBox`
+  * `MicButton`
+* Avoid Tailwind or utility-heavy CSS, favor semantic CSS with reusable classnames.
+* Keep code clean, structured, and componentized.
+
+---
+
+## 🔹 Deliverables
+
+Generate **production-ready React components with CSS** that implement this layout + design system.
+Ensure accessibility (`aria-labels`, focus states, keyboard nav).
+Icons should be inline SVGs, styled consistently.
+
+---
+
+👉 Before coding, suggest **3 polished color palettes + type scale** that would fit Apple’s premium style for this app.
+
+---

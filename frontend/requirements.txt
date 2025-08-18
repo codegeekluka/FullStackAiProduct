@@ -1,2 +1,4 @@
 axios
 jwt-decode
+react-icons
+prop-types

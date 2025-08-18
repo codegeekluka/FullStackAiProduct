@@ -6,8 +6,13 @@ from backend.database.db_models import Recipe, Instruction, Ingredient, User, Ta
 from pydantic import BaseModel
 from backend.Scrapers.scraper import extract_webpage_data
 from backend.Apis.auth import get_current_user
+from backend.services.ai_assistant import ai_assistant
 import re
 from typing import List, Optional
+import traceback
+import asyncio
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 
 #creates new router instance
@@ -21,6 +26,9 @@ class RecipeUpdate(BaseModel):
     image: Optional[str] = None
     ingredients: Optional[List[str]] = None
     instructions: Optional[List[str]] = None
+    is_active: Optional[bool] = False
+    favorite: Optional[bool] = False
+    tags: Optional[List[str]] = None
 
 class TagsUpdate(BaseModel):
     tags: List[str]
@@ -69,10 +77,30 @@ def extract_instruction_texts(instructions):
 def parse_recipe(req: RecipeRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     try:
         recipe = extract_webpage_data(req.url)
-        if recipe == 'No HowToSteps found.' or recipe == "Failed to retrieve data.":
-            raise ValueError("Could not scrape website")
+        
+        # Check for specific error messages from the scraper
+        if isinstance(recipe, str):
+            if recipe == 'No HowToSteps found.':
+                raise ValueError("No recipe found on this page. Please check if the URL contains a recipe.")
+            elif recipe == "Failed to retrieve data.":
+                raise ValueError("Failed to access the website. Please check the URL and try again.")
+            elif "timed out" in recipe.lower():
+                raise ValueError("The website took too long to respond. Please try again later.")
+            elif "connection error" in recipe.lower():
+                raise ValueError("Connection error. Please check your internet connection and try again.")
+            elif "request failed" in recipe.lower():
+                raise ValueError("Failed to access the website. The site may be blocking automated requests.")
+            elif "unexpected error" in recipe.lower():
+                raise ValueError("An unexpected error occurred while scraping. Please try again.")
+            else:
+                raise ValueError(f"Scraping failed: {recipe}")
+        
+        # Validate that we have the required recipe data
+        if not isinstance(recipe, dict) or "name" not in recipe:
+            raise ValueError("Invalid recipe data received from the website.")
+            
         # Create and store recipe
-        slug = generate_unique_slug(db,recipe["name"])
+        slug = generate_unique_slug(db, recipe["name"])
 
         image_data = recipe.get("image", "")
         # If it's a dict (like ImageObject), extract the 'url' key
@@ -92,10 +120,11 @@ def parse_recipe(req: RecipeRequest, db: Session = Depends(get_db), current_user
             title=recipe["name"],
             slug=slug,
             user_id=current_user.id,
-            description=recipe["description"],
+            description=recipe.get("description", ""),
             image=image,
             favorite=False,
-            active=False
+            is_active=False,
+            tags=[]
             )
         db.add(new_recipe)
         db.flush()  # Assigns recipe.id
@@ -104,20 +133,46 @@ def parse_recipe(req: RecipeRequest, db: Session = Depends(get_db), current_user
         instructions = recipe.get("recipeInstructions", [])
         step_texts = extract_instruction_texts(instructions)
 
-        for step_text in step_texts:
-            db.add(Instruction(description=step_text, recipe_id=new_recipe.id))
+        for i, step_text in enumerate(step_texts):
+            db.add(Instruction(description=step_text, recipe_id=new_recipe.id, step_number=i+1))
         if not step_texts:
-            raise ValueError("No valid instructions found in recipeInstructions.")
-
+            raise ValueError("No valid instructions found in the recipe. Please try a different recipe URL.")
 
         # Add ingredients
-        for item in recipe.get("recipeIngredient", []):
+        ingredients = recipe.get("recipeIngredient", [])
+        if not ingredients:
+            raise ValueError("No ingredients found in the recipe. Please try a different recipe URL.")
+            
+        for item in ingredients:
             db.add(Ingredient(ingredient=item, recipe_id=new_recipe.id))
 
-        db.commit()    
-        return {"recipe_id": new_recipe.id, "slug":slug} #return on success
-    except Exception as e :
-        raise HTTPException(status_code = 400, detail=str(e))
+        db.commit()
+        
+        # Generate embeddings asynchronously in the background
+        def generate_embeddings_async():
+            try:
+                # Create a new database session for the background task
+                from backend.database.database import SessionLocal
+                background_db = SessionLocal()
+                try:
+                    ai_assistant.update_recipe_embeddings(background_db, new_recipe.id)
+                    print(f"Successfully generated embeddings for recipe {new_recipe.id}")
+                finally:
+                    background_db.close()
+            except Exception as e:
+                print(f"Warning: Failed to generate embeddings for recipe {new_recipe.id}: {e}")
+        
+        # Start embeddings generation in a background thread
+        threading.Thread(target=generate_embeddings_async, daemon=True).start()
+        
+        return {"recipe_id": new_recipe.id, "slug": slug} #return on success
+        
+    except ValueError as e:
+        # Re-raise ValueError with the specific error message
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        print(f"Unexpected error during recipe parsing: {e}")
+        raise HTTPException(status_code=500, detail="An unexpected error occurred. Please try again.")
 
 @router.get("/recipes/{slug}")
 def get_recipe_by_slug(slug: str, db: Session = Depends(get_db)):
@@ -180,11 +235,28 @@ def update_recipe(
 
     if updated_data.instructions is not None:
         db.query(Instruction).filter(Instruction.recipe_id == db_recipe.id).delete()
-        for step in updated_data.instructions:
-            db.add(Instruction(recipe_id=db_recipe.id, description=step))
+        for i, step in enumerate(updated_data.instructions):
+            db.add(Instruction(recipe_id=db_recipe.id, description=step, step_number=i+1))
 
     db.commit()
     db.refresh(db_recipe)
+    
+    # Update embeddings for the modified recipe asynchronously
+    def update_embeddings_async():
+        try:
+            # Create a new database session for the background task
+            from backend.database.database import SessionLocal
+            background_db = SessionLocal()
+            try:
+                ai_assistant.update_recipe_embeddings(background_db, db_recipe.id)
+                print(f"Successfully updated embeddings for recipe {db_recipe.id}")
+            finally:
+                background_db.close()
+        except Exception as e:
+            print(f"Warning: Failed to update embeddings for recipe {db_recipe.id}: {e}")
+    
+    # Start embeddings generation in a background thread
+    threading.Thread(target=update_embeddings_async, daemon=True).start()
 
     return db_recipe
 
@@ -216,11 +288,11 @@ def create_manual_recipe(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    print(recipe_in)
+    print("Received recipe_in:", recipe_in.dict())
+
     try:
         # Generate a unique slug
         slug = generate_unique_slug(db, recipe_in.title)
-
         # Create and store the main recipe
         new_recipe = Recipe(
             title=recipe_in.title,
@@ -228,9 +300,9 @@ def create_manual_recipe(
             user_id=current_user.id,
             description=recipe_in.description,
             image=recipe_in.image,
-            favorite=False,
-            is_active=True
-
+            favorite=recipe_in.favorite if recipe_in.favorite is not None else False,
+            is_active=recipe_in.is_active if recipe_in.is_active is not None else False,
+            tags=[]
         )
         db.add(new_recipe)
         db.flush()  # Assigns new_recipe.id
@@ -240,15 +312,44 @@ def create_manual_recipe(
             db.add(Ingredient(ingredient=item, recipe_id=new_recipe.id))
 
         # Add instructions
-        for step_text in recipe_in.instructions:
-            db.add(Instruction(description=step_text, recipe_id=new_recipe.id))
+        for i, step_text in enumerate(recipe_in.instructions):
+            db.add(Instruction(description=step_text, recipe_id=new_recipe.id, step_number=i+1))
+        # Tags
+        if recipe_in.tags:
+            for tag_name in recipe_in.tags:
+                tag = db.query(Tag).filter(Tag.name == tag_name).first()
+                if not tag:
+                    tag = Tag(name=tag_name)
+                    db.add(tag)
+                    db.flush()  # get tag.id assigned
+                new_recipe.tags.append(tag)  # link tag with recipe
 
         db.commit()
+        
+        # Generate embeddings for the new recipe asynchronously
+        def generate_embeddings_async():
+            try:
+                # Create a new database session for the background task
+                from backend.database.database import SessionLocal
+                background_db = SessionLocal()
+                try:
+                    ai_assistant.update_recipe_embeddings(background_db, new_recipe.id)
+                    print(f"Successfully generated embeddings for manual recipe {new_recipe.id}")
+                finally:
+                    background_db.close()
+            except Exception as e:
+                print(f"Warning: Failed to generate embeddings for manual recipe {new_recipe.id}: {e}")
+        
+        # Start embeddings generation in a background thread
+        threading.Thread(target=generate_embeddings_async, daemon=True).start()
 
         return {"recipe_id": new_recipe.id, "slug": slug}
 
     except Exception as e:
         db.rollback()
+        print("Error creating recipe:", str(e))
+        print(traceback.format_exc())
+
         raise HTTPException(status_code=500, detail=f"Failed to create recipe: {str(e)}")
 
 
@@ -271,6 +372,15 @@ def toggle_active(slug: str, db: Session = Depends(get_db), user=Depends(get_cur
     if not recipe:
         raise HTTPException(status_code=404, detail="Recipe not found")
     
+    # If we're activating this recipe, deactivate all other recipes first
+    if not recipe.is_active:
+        # Deactivate all other recipes for this user
+        db.query(Recipe).filter(
+            Recipe.user_id == user.id,
+            Recipe.is_active == True
+        ).update({"is_active": False})
+    
+    # Toggle the current recipe's active status
     recipe.is_active = not recipe.is_active
     db.commit()
     db.refresh(recipe)
@@ -296,4 +406,36 @@ def add_tags(slug: str, tag_names: TagsUpdate, db: Session = Depends(get_db), us
     db.commit()
     db.refresh(recipe)
     return {"slug": slug, "tags": [t.name for t in recipe.tags]}
+
+@router.get("/user/active-recipe")
+def get_active_recipe(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Get the currently active recipe for the user"""
+    try:
+        active_recipe = db.query(Recipe).filter(
+            Recipe.user_id == current_user.id,
+            Recipe.is_active == True
+        ).first()
+        
+        if not active_recipe:
+            return {"active_recipe": None}
+        
+        # Get ingredients and instructions
+        ingredients = db.query(Ingredient).filter(Ingredient.recipe_id == active_recipe.id).all()
+        instructions = db.query(Instruction).filter(Instruction.recipe_id == active_recipe.id).all()
+        
+        return {
+            "active_recipe": {
+                "id": active_recipe.id,
+                "title": active_recipe.title,
+                "slug": active_recipe.slug,
+                "description": active_recipe.description,
+                "image": active_recipe.image,
+                "ingredients": [i.ingredient for i in ingredients],
+                "instructions": [step.description for step in instructions],
+                "tags": [tag.name for tag in active_recipe.tags]
+            }
+        }
+    except Exception as e:
+        print("Error fetching active recipe: ", e)
+        return JSONResponse(status_code=500, content={"detail": "Server error"})
 

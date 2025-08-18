@@ -1,18 +1,16 @@
-import RecipeCard from '../components/RecipeCard.jsx'
 import '../styles/Home.css'
 import Login from './Login.jsx'
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext, useRef } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import ScrapeWebsiteBtn from '../components/ScrapeWebsiteBtn.jsx'
 import { AuthContext } from '../contexts/AuthContext.jsx';
-import ArrowButton from '../components/ArrowBtn.jsx';
+import RecipeCarousel from '../components/RecipeCarousel.jsx';
+import PillNav from '../components/PillNav.jsx';
 
 
 const Home = () => {
-  const { recipes, user, loading, fetchUserRecipes} = useContext(AuthContext)
+  const { recipes, user, loading, fetchUserRecipes, setNavOrigin} = useContext(AuthContext)
   const navigate = useNavigate();
-  const scrollRef = useRef(null);
-  
   
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -20,49 +18,93 @@ const Home = () => {
       fetchUserRecipes(token); // Fetch fresh recipes when component mounts
     }
   }, [user]); // Only when user changes
-
+  
   if (loading) return <p>Loading...</p>
   if(!user) return null; //shouldn't happen due to routing guard
 
-  const handleCardClick = (slug) =>{
+    const handleCardClick = (slug) =>{
+    console.log('Home - handleCardClick called for slug:', slug);
+    setNavOrigin('/home')
+    console.log('Home - origin set to /home');
     navigate(`/recipe/${slug}`)
   }
-  const handleScroll = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = 600; // Adjust as needed, width of cards + gap
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+
+  // Filter recipes for different carousels
+  const favoriteRecipes = recipes.filter(recipe => recipe.favorite);
+  
+  // Filter recipes by specific tags
+  const easyRecipes = recipes.filter(recipe => 
+    recipe.tags && recipe.tags.some(tag => {
+      const tagName = typeof tag === 'string' ? tag : tag.name;
+      return tagName.toLowerCase().includes('easy') || tagName.toLowerCase().includes('simple');
+    })
+  );
+  
+  const cheapRecipes = recipes.filter(recipe => 
+    recipe.tags && recipe.tags.some(tag => {
+      const tagName = typeof tag === 'string' ? tag : tag.name;
+      return tagName.toLowerCase().includes('cheap') || tagName.toLowerCase().includes('budget') || tagName.toLowerCase().includes('affordable');
+    })
+  );
+  
+  const quickRecipes = recipes.filter(recipe => 
+    recipe.tags && recipe.tags.some(tag => {
+      const tagName = typeof tag === 'string' ? tag : tag.name;
+      return tagName.toLowerCase().includes('quick') || tagName.toLowerCase().includes('fast') || tagName.toLowerCase().includes('30min');
+    })
+  );
+  
+  const healthyRecipes = recipes.filter(recipe => 
+    recipe.tags && recipe.tags.some(tag => {
+      const tagName = typeof tag === 'string' ? tag : tag.name;
+      return tagName.toLowerCase().includes('healthy') || tagName.toLowerCase().includes('low-cal') || tagName.toLowerCase().includes('diet');
+    })
+  );
  
 
   return (
     <div className="home">
       <div className="add-recipe">
         <ScrapeWebsiteBtn />
-        <button onClick={()=>navigate('/recipe/new', { recipe: true})} className="insert-recipe-btn">Add own recipe</button>
+        <button onClick={() => {
+          console.log('Home - Add own recipe button clicked');
+          setNavOrigin('/home');
+          console.log('Home - origin set to /home for new recipe');
+          navigate('/recipe/new', { recipe: true });
+        }} className="insert-recipe-btn">Add own recipe</button>
       </div>
       <div className="bottom-container">
-        <h2>Your Recipes</h2>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <ArrowButton direction="left" onClick={() => handleScroll("left")}/>
-          <div className="recipe-list" ref={scrollRef} style={{ flexGrow: 1 }}>
-            {recipes.length === 0 ? (
-              <p>No recipes found.</p>
-            ) : (
-              recipes.map((recipe) => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  onClick={() => handleCardClick(recipe.slug)}
-                />
-              ))
-            )}
-          </div>
-          <ArrowButton direction="right" onClick={() => handleScroll("right")}/>
-        </div>
+        <PillNav />
+        <RecipeCarousel 
+          recipes={favoriteRecipes}
+          title="Your Favorites"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={easyRecipes}
+          title="Easy Recipes"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={cheapRecipes}
+          title="Budget-Friendly"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={quickRecipes}
+          title="Quick & Easy"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={healthyRecipes}
+          title="Healthy Options"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={recipes}
+          title="All Your Recipes"
+          onCardClick={handleCardClick}
+        />
       </div>
 
 

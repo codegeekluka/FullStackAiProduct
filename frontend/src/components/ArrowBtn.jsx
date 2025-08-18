@@ -1,5 +1,5 @@
 
-const ArrowButton = ({ direction, onClick }) => {
+const ArrowButton = ({ direction, onClick, style }) => {
      // Define points for left and right arrows
     const points = direction === "left" ? "15 18 9 12 15 6" : "9 18 15 12 9 6";
     return(
@@ -13,6 +13,7 @@ const ArrowButton = ({ direction, onClick }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            ...style, // Merge any additional styles passed as props
         }}
         aria-label="Previous"
         >
@@ -34,5 +35,5 @@ const ArrowButton = ({ direction, onClick }) => {
     )
 }
   
-  export default ArrowButton;
+export default ArrowButton;
   

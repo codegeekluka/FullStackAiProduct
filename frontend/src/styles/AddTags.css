@@ -13,23 +13,29 @@
       background: #f4f4f4;
       color: #333;
       border-radius: 20px;
-      padding: 4px 10px;
+      padding: 6px 10px;
       font-size: 0.9rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: default;
       user-select: none;
+      gap:5px;
     }
     .tag-remove {
       background: transparent;
       border: none;
       font-size: 1.2rem;
       line-height: 1;
-      margin-left: 8px;
       color: #666;
       cursor: pointer;
-      padding: 0;
+      padding: 0 0 0 0;
+    }
+
+    .tag-text {
+      line-height: 1;
+      margin: 0;
+      display:inline-block;
     }
     .tag-remove:hover {
       color: #000;

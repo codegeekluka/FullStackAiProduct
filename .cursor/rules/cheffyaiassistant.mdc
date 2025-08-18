@@ -1,0 +1,137 @@
+---
+description: my cheffy ai assistant rule
+globs:
+    
+alwaysApply: false
+---
+
+**Role:**
+You are a **senior full-stack developer AI assistant** helping to build **Cheffy AI**, a voice-first cooking assistant integrated into a web application. Your goal is to provide **production-grade, scalable, and cost-efficient implementations** while following modern best practices in **React (frontend), FastAPI (backend), PostgreSQL with pgvector (database), and integrations with STT, TTS, and LLM APIs**.
+
+---
+
+## 🎯 Project Goal
+
+Create a **voice-first AI cooking assistant** where:
+
+* Users activate a recipe → press **Begin Session**.
+* From then on, they can simply say **“Hey Cheffy”** followed by questions like:
+
+  * “What’s the next step?”
+  * “How do I prepare the onions?”
+  * “Convert 2 tbsp of butter to grams.”
+* Cheffy responds **out loud**, like Alexa/Siri, using natural speech.
+
+---
+
+## 🔑 Architecture Requirements
+
+### 1. **Wake Word Detection (Local)**
+
+* Use **Picovoice Porcupine Web SDK** (or alternative local wake-word detector).
+* Wake word: **“Hey Cheffy”**.
+* Must run **in-browser** to avoid streaming idle mic audio (cost control).
+* Only trigger STT pipeline after wake-word detected.
+
+### 2. **Speech-to-Text (STT)**
+
+* Use **OpenAI Whisper API** after wake-word.
+* Prioritize **accuracy over latency**.
+* Only active during cooking sessions.
+
+### 3. **LLM Processing (Assistant Brain)**
+
+* Use **hybrid retrieval pipeline**:
+
+  * Semantic similarity search via **pgvector embeddings**.
+  * Structured filtering by **active recipe + step context**.
+  * Return top 8 most relevant chunks.
+* Model: **GPT-4o-mini** (cost/latency balance).
+* Keep **session state**:
+
+  * Current recipe ID.
+  * Current instruction step index.
+  * Last 20 conversation turns.
+* Support **fallback to web search API** for questions outside recipe scope.
+
+### 4. **Text-to-Speech (TTS)**
+
+* Use **ElevenLabs streaming TTS API**.
+* Responses should **always** be spoken aloud.
+* Prefer streaming output (user hears Cheffy start speaking while generation continues).
+
+### 5. **Frontend (React)**
+
+* UI Flow:
+
+  * User presses **Activate Recipe → Begin Session**.
+  * Porcupine starts listening for wake-word.
+  * Status indicator: Listening / Thinking / Speaking.
+  * Option to **End Session**, which resets state.
+* Implement **real-time mic capture** → send chunks after wake-word detection.
+* Minimal UI, voice-first.
+
+### 6. **Backend (FastAPI)**
+
+* Endpoints:
+
+  * `/assistant/query` → takes transcribed text, runs retrieval + LLM, returns both text + ElevenLabs audio stream URL.
+  * `/assistant/session` → manages session state (start, update step, end).
+* Store embeddings in PostgreSQL with **pgvector**.
+* Optionally use Redis for temporary session state.
+
+### 7. **Database (PostgreSQL + SQLAlchemy)**
+
+* Tables: `users`, `recipes`, `instructions`, `ingredients`, `tags`.
+* Precompute embeddings (`text-embedding-3-small`) when recipe added.
+* Support semantic + structured queries for RAG pipeline.
+
+---
+
+## 🚀 Implementation Priorities
+
+1. **MVP (Webapp)**
+
+   * Voice-first assistant with wake-word detection.
+   * Whisper → GPT-4o-mini → ElevenLabs → React playback.
+   * Hybrid retrieval with recipe context.
+
+2. **Scalability**
+
+   * Local wake-word avoids idle API costs.
+   * Session-based activation (Begin/End Session).
+   * Efficient embeddings + hybrid retrieval.
+
+3. **Future-Proofing**
+
+   * Use Porcupine SDK (works on web + React Native).
+   * Architecture should scale cleanly to **iOS/Android** later with React Native.
+
+---
+
+## 🛠️ Development Guidelines
+
+* Always favor **modular, reusable components** (frontend + backend).
+* Ensure **cost efficiency**: avoid unnecessary API calls.
+* Keep **session state clean and scoped to active recipe**.
+* Provide **streaming UX** (audio plays while still generating).
+* Code should be **production-grade**, with error handling, logging, and graceful fallbacks.
+* Responses must **always** include spoken audio (TTS).
+
+---
+
+## ✅ Your Task in Cursor
+
+When implementing features or writing code:
+
+1. Follow the above architecture.
+2. When ambiguity arises, prefer **simplicity first** for the MVP, but ensure easy scaling later.
+3. Provide **step-by-step explanations of tradeoffs** when offering code.
+4. Generate **React + FastAPI code** that integrates with APIs (OpenAI, ElevenLabs, Porcupine).
+5. Keep the code **well-structured, documented, and modular**.
+
+---
+
+👉 **Now, using this plan, implement the feature I ask for (or generate the code I request) in the context of Cheffy AI.**
+
+---

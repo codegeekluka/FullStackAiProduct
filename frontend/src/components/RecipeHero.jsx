@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FavoriteIcon, ActiveIcon } from "./Icons";
 import { toggleFavorite } from "../services/toggleFavorite";
 import { toggleActive } from "../services/toggleActive";
@@ -8,12 +8,13 @@ import EditButton from '../components/EditButton';
 import ReturnBtn from '../components/ReturnBtn';
 import TagsManager from "./AddTags";
 import TagsPills from "./TagsPills";
-import { updateTags } from "../services/tagsManger";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function RecipeHero({ recipe, tags, onAddTag, onRemoveTag, editMode, startEditing, saveRecipe, cancelEditing, navigate }) {
   const [isFavorite, setIsFavorite] = useState(recipe.is_favorite || false);
   const [isActive, setIsActive] = useState(recipe.is_active || false);
   const token = localStorage.getItem("token");
+  const { origin, clearNavOrigin } = useContext(AuthContext)
 
  
   const handleFavoriteClick = async () => {
@@ -30,16 +31,33 @@ export default function RecipeHero({ recipe, tags, onAddTag, onRemoveTag, editMo
     } catch {}
   };
 
-
-
   return (
     <div className="recipe-hero">
-      <img src={recipe.image || '/public/pexels-valeriya-842571.jpg'} alt="Recipe" />
+      <img src={recipe.image || '/pexels-valeriya-842571.jpg'} alt="Recipe" />
 
       <div className="top-buttons">
         {!editMode ? (
           <>
-            <ReturnBtn onClick={() => navigate('/home')} />
+            <ReturnBtn onClick={() => {
+                console.log('RecipeHero - ReturnBtn clicked, origin:', origin);
+                console.log('RecipeHero - token before navigation:', !!localStorage.getItem('token'));
+                
+                if (origin === '/home') {
+                    console.log('RecipeHero - navigating to /home');
+                    navigate('/home');
+                } else if (origin === '/MyRecipes') {
+                    console.log('RecipeHero - navigating to /MyRecipes');
+                    navigate('/MyRecipes');
+                } else {
+                    console.log('RecipeHero - navigating to /home (fallback)');
+                    navigate('/home'); // Fallback to home instead of login page
+                }
+                
+                console.log('RecipeHero - clearing nav origin');
+                clearNavOrigin(); // Clear origin after navigating
+                
+                console.log('RecipeHero - token after navigation:', !!localStorage.getItem('token'));
+            }}  />
             <EditButton onClick={startEditing} />
             <DeleteButton />
           </>
@@ -51,9 +69,9 @@ export default function RecipeHero({ recipe, tags, onAddTag, onRemoveTag, editMo
         )}
       </div>
 
-      <TagsPills tags={tags} onRemoveTag={onRemoveTag} />
+      <TagsPills tags={tags} onRemoveTag={onRemoveTag} editMode={editMode} />
 
-      <div className="bottom-right-buttons">
+      {!(editMode && recipe.slug === "new") && <div className="bottom-right-buttons">
         <TagsManager
             tags={tags}
             onAddTag={onAddTag}
@@ -65,7 +83,7 @@ export default function RecipeHero({ recipe, tags, onAddTag, onRemoveTag, editMo
         <button className="icon-button" onClick={handleActiveClick} title={isActive ? "Deactivate" : "Activate"}>
           <ActiveIcon active={isActive} />
         </button>
-      </div>
+      </div>}
     </div>
   );
 }

@@ -29,7 +29,7 @@ pass_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 #Creating a secret key for our JWT
 SECRET_KEY = JWT_PASSWORD
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 120  # Increased from 30 to 120 minutes (2 hours)
 
 class UserCreate(BaseModel):
     username: str

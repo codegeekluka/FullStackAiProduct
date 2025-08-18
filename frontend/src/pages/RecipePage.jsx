@@ -5,6 +5,7 @@ import '../styles/RecipePage.css'
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import RecipeHero from '../components/RecipeHero.jsx';
+
 import { saveRecipeService } from '../services/saveRecipe.js';
 import { fetchFullRecipe } from '../services/fetchFullRecipe.js';
 import { updateTags } from '../services/tagsManger.js';
@@ -18,6 +19,7 @@ const RecipePage = () => {
     const [draftRecipe, setDraftRecipe] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [tags, setTags] = useState([])
+    const [initialRecipe, setInitialRecipe] = useState(false);
     const token = localStorage.getItem('token');
 
     const navigate=useNavigate()
@@ -27,7 +29,6 @@ const RecipePage = () => {
         image: "",  // or placeholder image URL
         title: "Recipe title",
         description: "Recipe description",
-        category: "BREAKFAST",  // default or blank
         ingredients: ["Ingredient 1"],      // start with one blank item
         instructions: ["Step 1"],     // start with one blank item
         favorite: false,
@@ -43,6 +44,7 @@ const RecipePage = () => {
             setDraftRecipe(emptyRecipeTemplate);
             setEditMode(true);
             setLoading(false);
+            setInitialRecipe(true)
             return;
           }
 
@@ -52,7 +54,7 @@ const RecipePage = () => {
           try {
             setLoading(true);
             const fullRecipe= await fetchFullRecipe(slug)
-            console.log("setRecipe with tags:", fullRecipe.tags);
+        
             if (isMounted) {
                 setRecipe(fullRecipe);
                 setDraftRecipe(fullRecipe);
@@ -70,11 +72,7 @@ const RecipePage = () => {
           setDraftRecipe(localRecipe);// but still refresh from API
           setTags(localRecipe.tags || [])
         }
-
         loadRecipe()
-        
-
-      
         return () => {
           isMounted = false;
         };
@@ -123,14 +121,18 @@ const RecipePage = () => {
       
       const saveRecipe = async () => {
         try {
-          // Build the update payload only with defined fields
+            // Build the update payload only with defined fields
+              console.log(draftRecipe)
               const savedRecipe = await saveRecipeService(draftRecipe, slug, token)
-              setRecipe(draftRecipe);
-              setEditMode(false);
-
-              if (slug === "new") {
-                navigate(`/recipe/${savedRecipe.slug}`);
-            }
+              if (savedRecipe && savedRecipe.slug) {
+                setRecipe(draftRecipe);
+                setEditMode(false);
+                setInitialRecipe(false);
+          
+                if (slug === "new") {
+                  navigate(`/recipe/${savedRecipe.slug}`);
+                }
+              }
           
         } catch (err) {
             if(err.response?.status===403){
@@ -141,7 +143,6 @@ const RecipePage = () => {
             }    
         }
       };
-      
       
       if (loading) return (
         <div className="loader-container">
@@ -163,6 +164,7 @@ const RecipePage = () => {
               saveRecipe={saveRecipe}
               cancelEditing={cancelEditing}
               navigate={navigate}
+              initialRecipe={initialRecipe}
             />
 
             {/* RECIPE CONTENT */}
@@ -214,8 +216,6 @@ const RecipePage = () => {
                     Instructions
                 </button>
                 </div>
-
-    
 
                 {/* TAB CONTENT */}
                 <div className="tab-content">

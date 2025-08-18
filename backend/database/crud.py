@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from backend.database.db_models import User, Recipe, Instruction, Ingredient
 from sqlalchemy import text
+import re
 
 def create_user(db: Session, firstname: str, lastname: str, email: str):
     user = User(firstname=firstname, lastname=lastname, email=email)
@@ -27,8 +28,21 @@ def create_recipe(db: Session, title: str, user_id: int):
     """
     Create a new recipe for a specific user
     """
-    recipe = Recipe(title=title)
-    recipe.user_id = user_id
+    # Generate a simple slug from title
+    slug = title.lower().replace(' ', '-').replace('_', '-')
+    # Remove any non-alphanumeric characters except hyphens
+    slug = re.sub(r'[^a-z0-9-]', '', slug)
+    
+    recipe = Recipe(
+        title=title,
+        slug=slug,
+        user_id=user_id,
+        description="",
+        image="",
+        favorite=False,
+        is_active=False,
+        tags=[]
+    )
     db.add(recipe)
     db.commit()
     db.refresh(recipe)
@@ -60,8 +74,7 @@ def create_ingredient(db: Session, name: str, quantity: str, unit: str, recipe_i
     if not recipe:
         raise ValueError("Recipe not found or access denied")
     
-    ingredient = Ingredient(name=name, quantity=quantity, unit=unit)
-    ingredient.recipe_id = recipe_id
+    ingredient = Ingredient(ingredient=f"{quantity} {unit} {name}", recipe_id=recipe_id)
     db.add(ingredient)
     db.commit()
     db.refresh(ingredient)
@@ -102,8 +115,7 @@ def create_instruction(db: Session, step_number: int, description: str, recipe_i
     if not recipe:
         raise ValueError("Recipe not found or access denied")
     
-    instruction = Instruction(step_number=step_number, description=description)
-    instruction.recipe_id = recipe_id
+    instruction = Instruction(description=description, recipe_id=recipe_id, step_number=step_number)
     db.add(instruction)
     db.commit()
     db.refresh(instruction)

@@ -17,6 +17,12 @@ export async function saveRecipeService(draftRecipe, slug, token) {
   if (draftRecipe.description !== undefined) updatePayload.description = draftRecipe.description;
   if (draftRecipe.ingredients !== undefined) updatePayload.ingredients = draftRecipe.ingredients;
   if (draftRecipe.instructions !== undefined) updatePayload.instructions = draftRecipe.instructions;
+  if (draftRecipe.favorite !== undefined) updatePayload.favorite = draftRecipe.favorite;
+  if (draftRecipe.is_active !== undefined) updatePayload.is_active = draftRecipe.is_active;
+  if (draftRecipe.tags !== undefined) updatePayload.tags = draftRecipe.tags;
+  
+  console.log(draftRecipe.tags)
+
 
   const config = {
     headers: {
@@ -24,12 +30,18 @@ export async function saveRecipeService(draftRecipe, slug, token) {
       "Content-Type": "application/json",
     },
   };
+  try {
+    if (slug === "new") {
 
-  if (slug === "new") {
-    const res = await axios.post("http://localhost:8000/recipe/manualRecipe", updatePayload, config);
-    return res.data;
-  } else {
-    const res = await axios.put(`http://localhost:8000/recipes/${slug}`, updatePayload, config);
-    return res.data;
+      const res = await axios.post("http://localhost:8000/recipe/manualRecipe", updatePayload, config);
+      console.log("the error: ", res.data)
+      return res.data;
+    } else {
+      const res = await axios.put(`http://localhost:8000/recipes/${slug}`, updatePayload, config);
+      return res.data;
+    }
+  } catch(err) {
+    console.log("this is the error: ", err)
   }
+  
 }

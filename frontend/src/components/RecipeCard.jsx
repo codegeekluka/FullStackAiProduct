@@ -8,7 +8,7 @@ const RecipeCard = ({recipe, onClick }) => {
   return (
     <div className="recipe-card" onClick={onClick}>
       <div className="recipe-image-container">
-        <img className="recipe-image" src={recipe.image || '/public/pexels-valeriya-842571.jpg'} alt={recipe.title} />
+        <img className="recipe-image" src={recipe.image || '/pexels-valeriya-842571.jpg'} alt={recipe.title} />
       </div>
       <h3 className="recipe-title">{recipe.title}</h3>
       <p className="recipe-description">
