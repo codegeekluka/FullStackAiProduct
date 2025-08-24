@@ -138,7 +138,7 @@
   background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 10px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -149,18 +149,27 @@
   justify-content: center;
   gap: 4px;
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+  white-space: nowrap;
+  min-width: 80px;
+  height: 36px;
 }
 
 .end-session-button {
   background: rgba(239, 68, 68, 0.1);
   color: #ef4444;
   border: 1px solid rgba(239, 68, 68, 0.2);
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 10px;
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 100px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .end-session-button:hover:not(:disabled) {
@@ -171,6 +180,36 @@
 .end-session-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.remove-active-button {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  min-width: 90px;
+  height: 36px;
+}
+
+.remove-active-button:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  transform: translateY(-1px);
+}
+
+.remove-active-button svg {
+  width: 16px;
+  height: 16px;
 }
 
 .no-recipe-state {

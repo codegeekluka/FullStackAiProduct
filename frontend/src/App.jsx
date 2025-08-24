@@ -6,49 +6,95 @@ import Navbar from './components/layout/NavBar.jsx'
 import MyRecipes from './pages/MyRecipes.jsx'
 import RecipePage from './pages/RecipePage.jsx'
 import AddRecipePage from './pages/AddRecipePage.jsx'
+import Planner from './pages/Planner.jsx'
 import Cheffy from './pages/Cheffy.jsx'
+import Onboarding from './components/onboarding/Onboarding.jsx'
+import Settings from './pages/Settings.jsx'
+import ThemeDemo from './components/ui/ThemeDemo.jsx'
 import PrivateRoute from './components/layout/PrivateRoute.jsx'
+import AuthGate from './components/layout/AuthGate.jsx'
 import ScrollToTop from './components/layout/ScrollToTop.jsx'
+import './styles/utilities.css'
 
 function App() {
   
   return (
     <>
       <ScrollToTop />
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Login />}/>
-        <Route path="/register" element={<Signup />}/>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Signup />} />
+        <Route path="/onboarding" element={
+          <PrivateRoute>
+            <Onboarding />
+          </PrivateRoute>
+        } />
         <Route path="/home" element={
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-          }
-        />
+          <AuthGate>
+            <>
+              <Navbar />
+              <Home />
+            </>
+          </AuthGate>
+        } />
+
         <Route path="/recipe/:slug" element={
-          <PrivateRoute>
-            <RecipePage />
-          </PrivateRoute>
-          }
-        />
+          <AuthGate>
+            <>
+              <Navbar />
+              <RecipePage />
+            </>
+          </AuthGate>
+        } />
         <Route path="/MyRecipes" element={
-          <PrivateRoute>
-            <MyRecipes />
-          </PrivateRoute>
-          }
-        />
+          <AuthGate>
+            <>
+              <Navbar />
+              <MyRecipes />
+            </>
+          </AuthGate>
+        } />
+        <Route path="/planner" element={
+          <AuthGate>
+            <>
+              <Navbar />
+              <Planner />
+            </>
+          </AuthGate>
+        } />
         <Route path="/add-recipe" element={
-          <PrivateRoute>
-            <AddRecipePage />
-          </PrivateRoute>
-          }
-        />
+          <AuthGate>
+            <>
+              <Navbar />
+              <AddRecipePage />
+            </>
+          </AuthGate>
+        } />
         <Route path="/cheffy" element={
-          <PrivateRoute>
-            <Cheffy />
-          </PrivateRoute>
-          }
-        />
+          <AuthGate>
+            <>
+              <Navbar />
+              <Cheffy />
+            </>
+          </AuthGate>
+        } />
+        <Route path="/settings" element={
+          <AuthGate>
+            <>
+              <Navbar />
+              <Settings />
+            </>
+          </AuthGate>
+        } />
+        <Route path="/theme-demo" element={
+          <AuthGate>
+            <>
+              <Navbar />
+              <ThemeDemo />
+            </>
+          </AuthGate>
+        } />
+
       </Routes>
       
     </>

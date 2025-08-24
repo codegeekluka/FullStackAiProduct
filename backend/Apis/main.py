@@ -1,11 +1,18 @@
+import logging
+import os
+import time
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
-from backend.Apis.RecipeRequest import router as recipe_router
-from backend.Apis.auth import router as auth_router
+from fastapi.staticfiles import StaticFiles
+
 from backend.Apis.ai_assistant import router as ai_assistant_router
-import time
-import logging
+from backend.Apis.auth import router as auth_router
+from backend.Apis.RecipeRequest import router as recipe_router
+from backend.Apis.user_profile import router as user_profile_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -13,46 +20,114 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Recipe App API",
-    description="API for recipe management and AI cooking assistant",
-    version="1.0.0"
+    description="A comprehensive recipe management API",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
-#CORS control: meaning we cant have outside applications hitting our fastapi, without us saying this application is allowed to make calls to our endpoints, protects from outside users
+# CORS control: meaning we cant have outside applications hitting our fastapi, without us saying this application is allowed to make calls to our endpoints, protects from outside users
 app.add_middleware(
     CORSMiddleware,
-    #allow all types requsts if its from our frontend
-    allow_origins=["http://localhost:5173"],  # frontend origin, when deployed change to production server name
+    # allow all types requsts if its from our frontend
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Request timeout middleware
-@app.middleware("http")
-async def timeout_middleware(request: Request, call_next):
-    start_time = time.time()
-    try:
-        response = await call_next(request)
-        process_time = time.time() - start_time
-        logger.info(f"Request to {request.url.path} completed in {process_time:.2f}s")
-        return response
-    except Exception as e:
-        process_time = time.time() - start_time
-        logger.error(f"Request to {request.url.path} failed after {process_time:.2f}s: {str(e)}")
-        return JSONResponse(
-            status_code=500,
-            content={"detail": "Request timeout or server error. Please try again."}
-        )
+# Add GZip compression for better performance
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-#include routers from the recipe request module
+# Add trusted host middleware for security
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+
+# Mount static files for uploaded images
+# Create uploads directory if it doesn't exist
+uploads_dir = "uploads"
+if not os.path.exists(uploads_dir):
+    os.makedirs(uploads_dir)
+
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
+
+# Request timing middleware
+@app.middleware("http")
+async def add_process_time_header(request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
+
+# Error handling and performance middleware
+@app.middleware("http")
+async def handle_connection_errors(request, call_next):
+    import asyncio
+    import time
+    
+    # Retry configuration
+    max_retries = 2
+    retry_delay = 0.1  # 100ms
+    
+    for attempt in range(max_retries + 1):
+        try:
+            # Add timeout for database-heavy operations
+            response = await asyncio.wait_for(
+                call_next(request),
+                timeout=30.0  # 30-second timeout for all requests
+            )
+            return response
+            
+        except asyncio.TimeoutError:
+            logger.error(f"Request timeout: {request.url.path}")
+            return JSONResponse(
+                status_code=504,
+                content={"detail": "Request timeout - server is overloaded"}
+            )
+            
+        except ConnectionResetError as e:
+            if attempt < max_retries:
+                logger.warning(f"Connection reset on attempt {attempt + 1}, retrying: {request.url.path}")
+                await asyncio.sleep(retry_delay * (attempt + 1))  # Exponential backoff
+                continue
+            else:
+                logger.error(f"Connection reset after {max_retries} retries: {request.url.path}")
+                return JSONResponse(
+                    status_code=503,
+                    content={"detail": "Service temporarily unavailable - connection error"}
+                )
+                
+        except Exception as e:
+            logger.error(f"Request failed: {e}")
+            # Return a proper error response instead of crashing
+            return JSONResponse(
+                status_code=500,
+                content={"detail": "Internal server error"}
+            )
+
+# include routers from the recipe request module
 app.include_router(recipe_router)
 app.include_router(auth_router)
 app.include_router(ai_assistant_router, prefix="/ai", tags=["AI Assistant"])
+app.include_router(user_profile_router, prefix="/users", tags=["User Profile"])
+
 
 # Health check endpoint
 @app.get("/health")
 async def health_check():
+    """Health check endpoint"""
     return {"status": "healthy", "timestamp": time.time()}
+
+@app.get("/")
+async def root():
+    """Root endpoint"""
+    return {"message": "Recipe App API is running!"}
+
 
 # ===============================================
 # MASTER PROMPT: AI CHEF ASSISTANT IMPLEMENTATION

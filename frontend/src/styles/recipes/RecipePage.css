@@ -1,26 +1,60 @@
 * {
   box-sizing: border-box;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .recipe-container {
-    font-family: "Inter",;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     max-width: 600px;
     margin: 0 auto;
-    background: #fff;
+    background: var(--color-background-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border-glass);
+  }
+
+  /* Mobile responsive styles for recipe container */
+  @media (max-width: 768px) {
+    .recipe-container {
+      max-width: 100%;
+      margin: 0;
+      border-radius: 0;
+    }
+
+    .recipe-container .recipe-content {
+      padding: 16px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .recipe-container {
+      box-shadow: none;
+    }
+
+    .recipe-container .recipe-content {
+      padding: 12px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      margin-top: 0;
+    }
   }
  
-  
-  .description-recipe {
-    font-family: Inter;
-  }
-  
-
-  
-  .recipe-content {
+  .recipe-container .recipe-content {
     padding: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background: var(--color-background-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    z-index: 1;
+    margin-top: -18px;
   }
   
   .recipe-content h1 {
@@ -28,23 +62,203 @@
   }
   
   .description {
-    color: #555;
+    color: var(--color-text-secondary);
   }
   
   .read-more {
-    color: green;
+    color: var(--color-primary);
     cursor: pointer;
     margin-left: 5px;
   }
   
-  .nutrition-info {
+  .cooking-times {
     display: flex;
     justify-content: space-around;
-    background: #fafafa;
-    border-radius: 8px;
-    padding: 10px;
-    margin: 20px 0;
+    gap: 12px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+  }
+
+  .time-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: var(--color-background-glass-secondary);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 8px 12px;
+    min-width: 120px;
+    flex: 1;
+    max-width: 200px;
+    border: 1px solid var(--color-border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+    gap: 8px;
+  }
+
+  .time-card:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-border-secondary);
+  }
+
+  .time-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+
+  .time-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+
+  .time-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-left: auto;
+  }
+
+  /* Edit mode styles */
+  .cooking-times-edit {
+    display: flex;
+    justify-content: space-around;
+    gap: 12px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+  }
+
+  .time-edit-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--color-background-glass-secondary);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 8px 12px;
+    min-width: 100px;
+    flex: 1;
+    max-width: 200px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Special styling for total time card in edit mode */
+  .time-edit-card:last-child {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 120px;
+    gap: 8px;
+  }
+
+  .time-edit-card:last-child .time-value {
+    margin-left: auto;
+  }
+
+  .time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .time-input {
+    width: 50px;
+    padding: 6px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
     font-size: 14px;
+    text-align: center;
+    background: var(--color-background-glass);
+    color: var(--color-text-primary);
+  }
+
+  .time-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-shadow-primary);
+  }
+
+  .time-inputs span {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  /* Mobile responsive styles for time containers */
+  @media (max-width: 768px) {
+    .cooking-times,
+    .cooking-times-edit {
+      gap: 8px;
+      margin: 8px 0;
+    }
+
+    .time-card,
+    .time-edit-card {
+      min-width: 90px;
+      padding: 6px 8px;
+      gap: 6px;
+    }
+
+    .time-label {
+      font-size: 9px;
+    }
+
+    .time-value {
+      font-size: 12px;
+    }
+
+    .time-input {
+      width: 40px;
+      padding: 4px 6px;
+      font-size: 12px;
+    }
+
+    .time-inputs span {
+      font-size: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cooking-times,
+    .cooking-times-edit {
+      gap: 6px;
+      margin: 6px 0;
+    }
+
+    .time-card,
+    .time-edit-card {
+      min-width: 80px;
+      padding: 4px 6px;
+      gap: 4px;
+    }
+
+    .time-label {
+      font-size: 8px;
+    }
+
+    .time-value {
+      font-size: 11px;
+    }
+
+    .time-input {
+      width: 35px;
+      padding: 3px 5px;
+      font-size: 11px;
+    }
+
+    .time-inputs span {
+      font-size: 9px;
+    }
   }
   
   .tabs {
@@ -64,44 +278,54 @@
   }
   
   .tabs button.active {
-    border-bottom: 2px solid green;
-    color: green;
+    border-bottom: 2px solid var(--color-primary);
+    color: var(--color-primary);
   }
 
-  .tab-content {
+  .recipe-container .tab-content {
     max-height: 400px;   /* or whatever max height you want */
     overflow-y: auto;    /* enable vertical scrolling when content overflows */
-    padding-right: 10px; /* optional, for scrollbar spacing */
-    padding-left: 5px;
+    padding: 10px 5px 10px 5px; /* top right bottom left */
   }
   
   
-  .tab-content ul,
-  .tab-content ol {
+  .recipe-container .tab-content ul,
+  .recipe-container .tab-content ol {
     padding-left: 20px;
     line-height: 1.6;
   }
+
+  .recipe-container .tab-content ol li {
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+
   
 
     input.recipe-input,
     textarea.recipe-textarea {
-    width: 100%;
-    font-size: 16px;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    resize:none;
-    margin-bottom: 12px;
-    transition: border 0.2s ease;
-    font-family: inherit;
-    background-color: #fff;
-    color: #333;
+    width: 100% !important;
+    font-size: 16px !important;
+    padding: 10px 12px !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: 8px !important;
+    resize: none !important;
+    margin-bottom: 12px !important;
+    transition: border 0.2s ease !important;
+    font-family: inherit !important;
+    background-color: var(--color-background-glass) !important;
+    color: var(--color-text-primary) !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    box-sizing: border-box !important;
     }
 
     input.recipe-input:focus,
     textarea.recipe-textarea:focus {
-    border-color: #4caf50;
-    outline: none;
+    border-color: var(--color-primary) !important;
+    outline: none !important;
     }
 
     .edit-list-item {
@@ -112,39 +336,48 @@
     }
 
     .edit-list-item input {
-    flex: 1;
+    flex: 1 !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    box-sizing: border-box !important;
     }
 
     .edit-list-item button {
     padding: 4px 8px;
     font-size: 12px;
-    background: #e74c3c;
-    color: #fff;
+    background: var(--color-error);
+    color: var(--color-text-inverse);
     border: none;
     border-radius: 4px;
     cursor: pointer;
     }
 
     .edit-list-item button:hover {
-    background: #c0392b;
+    background: var(--color-error);
+    opacity: 0.8;
     }
     /* Ingredients input boxes */
   input.ingredients-input {
-    width: 100%;
-    font-size: 16px;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    transition: border 0.2s ease;
-    font-family: inherit;
-    background-color: #fff;
-    color: #333;
+    width: 100% !important;
+    font-size: 16px !important;
+    padding: 10px 12px !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px !important;
+    transition: border 0.2s ease !important;
+    font-family: inherit !important;
+    background-color: var(--color-background-glass) !important;
+    color: var(--color-text-primary) !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    box-sizing: border-box !important;
   }
 
   input.ingredients-input:focus {
-    border-color: #4caf50;
-    outline: none;
+    border-color: var(--color-primary) !important;
+    outline: none !important;
   }
 
   /* Instructions textarea boxes */
@@ -152,19 +385,19 @@
     width: 100%;
     font-size: 16px;
     padding: 10px 12px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     margin-bottom: 12px;
     transition: border 0.2s ease;
     font-family: inherit;
-    background-color: #fff;
-    color: #333;
+    background-color: var(--color-background-glass);
+    color: var(--color-text-primary);
     resize: vertical; /* allow vertical resizing only */
     min-height: 100px;
   }
 
   textarea.instructions-textarea:focus {
-    border-color: #4caf50;
+    border-color: var(--color-primary);
     outline: none;
   }
 

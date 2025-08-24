@@ -1,8 +1,8 @@
 .add-recipe-page {
- 
   box-sizing: border-box;
   max-width: 1200px;
   margin: 0 auto;
+  background-color: var(--color-background);
 }
 
 .add-recipe-hero {
@@ -16,28 +16,199 @@
   background-size: 1200px 400px;
   background-position: center;
   background-repeat: no-repeat;
+  background-color: var(--color-primary); /* Theme-aware fallback in case image fails to load */
   overflow: visible;
   width: 100%;
   height: 400px;
-  color: white;
+  color: var(--color-text-inverse);
   text-align: center;
+  position: relative;
+}
+
+/* Add overlay for better text readability - only in dark mode */
+.theme-dark .add-recipe-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-primary);
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.add-recipe-hero h1,
+.add-recipe-hero p {
+  position: relative;
+  z-index: 2;
+}
+
+/* Only apply z-index in dark mode when overlay is present */
+.theme-dark .add-recipe-hero h1,
+.theme-dark .add-recipe-hero p {
+  z-index: 2;
 }
 
 .add-recipe-hero h1 {
   font-size: 2.5rem;
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: var(--color-text-inverse);
 }
 
 .add-recipe-hero p {
   font-size: 1.2rem;
   margin: 0;
+  color: var(--color-text-inverse);
+}
+
+/* Add text shadow only in dark mode for better readability */
+.theme-dark .add-recipe-hero h1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: white !important;
+}
+
+.theme-dark .add-recipe-hero p {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  color: white !important;
 }
 
 .add-recipe-content {
   padding: 40px 20px;
   text-align: center;
   font-size: 1.1rem;
-  color: #666;
+  color: var(--color-text-secondary);
+}
+
+/* Recipe Creation Buttons */
+.recipe-creation-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.add-own-recipe-btn {
+  width: 100%;
+  background: var(--color-background-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border-glass);
+  border-radius: 16px;
+  padding: 16px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--shadow-lg);
+}
+
+.add-own-recipe-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  background: var(--color-background-glass-secondary);
+}
+
+.add-own-recipe-btn:active {
+  transform: translateY(0);
+}
+
+.add-own-recipe-btn svg {
+  color: var(--color-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .add-recipe-content {
+    padding: 30px 16px;
+  }
+  
+  .recipe-creation-buttons {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-recipe-hero {
+    height: 300px;
+    background-size: cover;
+  }
+  
+  .add-recipe-hero h1 {
+    font-size: 2.25rem;
+  }
+  
+  .add-recipe-hero p {
+    font-size: 1.125rem;
+  }
+  
+  .add-recipe-content {
+    padding: 24px 16px;
+    font-size: 1rem;
+  }
+  
+  .recipe-creation-buttons {
+    max-width: 320px;
+    gap: 16px;
+  }
+  
+  .add-own-recipe-btn {
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+  
+  .scrape-btn-modern {
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-recipe-hero {
+    height: 250px;
+  }
+  
+  .add-recipe-hero h1 {
+    font-size: 1.875rem;
+  }
+  
+  .add-recipe-hero p {
+    font-size: 1rem;
+  }
+  
+  .add-recipe-content {
+    padding: 20px 12px;
+    font-size: 0.95rem;
+  }
+  
+  .recipe-creation-buttons {
+    max-width: 280px;
+    gap: 12px;
+  }
+  
+  .add-own-recipe-btn {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+  
+  .scrape-btn-modern {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+}
+
+/* Add bottom padding for mobile bottom navigation */
+@media (max-width: 640px) {
+  .add-recipe-page {
+    padding-bottom: 100px;
+  }
 }

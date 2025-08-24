@@ -1,9 +1,16 @@
-from crud import create_user, delete_all_user_data, create_recipe, get_recipes_by_user, create_ingredient
-from backend.database.db_models import Session
+from crud import (
+    create_ingredient,
+    create_recipe,
+    create_user,
+    delete_all_user_data,
+    get_recipes_by_user,
+)
 
+#from backend.database.db_models import Session??
+from sqlalchemy.orm import Session
 
 db = Session()  # Create a new session
-'''
+"""
 new_user = create_user(db, firstname="alex", lastname="monroe", email="alex@example.com")
 new_user = create_user(db, firstname="mia", lastname="Dode", email="mia@example.com")
 new_user = create_user(db, firstname="joni", lastname="donald", email="joni@example.com")
@@ -17,7 +24,7 @@ create_recipe(db, "Fresh bread",5)
 create_recipe(db, "tomato soup",5)
 create_recipe(db, "hotdogs",6)
 create_recipe(db, "homemade pizza",2)
-'''
+"""
 
-recipes =  create_ingredient(db,"shrimp", "4", "",5 , 4)
+recipes = create_ingredient(db, "shrimp", "4", "", 5, 4)
 print(recipes)

@@ -36,8 +36,43 @@
   }
   
   .go-back-label {
-    transform: translateX(0.5rem); /* translate-x-4 */
-    z-index: 0;
-    position: relative;
+  transform: translateX(0.5rem); /* translate-x-4 */
+  z-index: 0;
+  position: relative;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .go-back-button {
+    width: 9rem;
+    height: 3rem;
+    font-size: 1.1rem;
   }
+  
+  .go-back-icon {
+    height: 2.5rem;
+  }
+  
+  .go-back-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .go-back-button {
+    width: 7rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+  
+  .go-back-icon {
+    height: 2rem;
+  }
+  
+  .go-back-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+}
   

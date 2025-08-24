@@ -1,0 +1,13 @@
+# =====================
+# Testing dependencies
+# =====================
+pytest>=7.4.0              # Testing framework
+pytest-asyncio>=0.21.0     # Async testing support
+pytest-cov>=4.1.0          # Coverage reporting
+pytest-mock>=3.11.0        # Mocking support
+httpx>=0.25.0              # HTTP client for testing FastAPI
+factory-boy>=3.3.0         # Test data factories
+faker>=19.0.0              # Fake data generation
+responses>=0.23.0          # Mock HTTP responses
+freezegun>=1.2.0           # Time mocking
+psycopg2-binary>=2.9.9     # PostgreSQL adapter for Python

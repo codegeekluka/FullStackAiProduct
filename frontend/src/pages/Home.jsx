@@ -2,14 +2,14 @@ import '../styles/pages/Home.css'
 import Login from './Login.jsx'
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react'
-import ScrapeWebsiteBtn from '../components/utils/ScrapeWebsiteBtn.jsx'
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import RecipeCarousel from '../components/pages/RecipeCarousel.jsx';
 import PillNav from '../components/layout/PillNav.jsx';
+import BottomNav from '../components/layout/BottomNav.jsx';
 
 
 const Home = () => {
-  const { recipes, user, loading, fetchUserRecipes, setNavOrigin} = useContext(AuthContext)
+  const { recipes, user, userProfile, loading, fetchUserRecipes, setNavOrigin} = useContext(AuthContext)
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -22,7 +22,37 @@ const Home = () => {
   if (loading) return <p>Loading...</p>
   if(!user) return null; //shouldn't happen due to routing guard
 
-    const handleCardClick = (slug) =>{
+  // Helper function to construct full image URL
+  const getImageUrl = (relativeUrl) => {
+    if (!relativeUrl) return null;
+    // If it's already a full URL, return as is
+    if (relativeUrl.startsWith('http')) return relativeUrl;
+    // Otherwise, prepend the backend URL
+    return `http://localhost:8000${relativeUrl}`;
+  };
+
+  // Get hero image with fallbacks
+  const getHeroImageStyle = () => {
+    if (userProfile?.hero_image_url) {
+      const fullImageUrl = getImageUrl(userProfile.hero_image_url);
+      return {
+        backgroundImage: `url('${fullImageUrl}')`,
+        backgroundSize: '1200px 400px',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
+    } else {
+      // Fallback to default image
+      return {
+        backgroundImage: `url('pexels-enginakyurt-1435895.jpg')`,
+        backgroundSize: '1200px 400px',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
+    }
+  };
+
+  const handleCardClick = (slug) =>{
     console.log('Home - handleCardClick called for slug:', slug);
     setNavOrigin('/home')
     console.log('Home - origin set to /home');
@@ -64,17 +94,13 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="add-recipe">
-        <ScrapeWebsiteBtn />
-        <button onClick={() => {
-          console.log('Home - Add own recipe button clicked');
-          setNavOrigin('/home');
-          console.log('Home - origin set to /home for new recipe');
-          navigate('/recipe/new', { recipe: true });
-        }} className="insert-recipe-btn">Add own recipe</button>
+      <div className="add-recipe" style={getHeroImageStyle()}>
+        <h1>Cooking with {user.username}</h1>
+        <p>Discover and create amazing recipes</p>
       </div>
       <div className="bottom-container">
         <PillNav />
+        <BottomNav />
         <RecipeCarousel 
           recipes={favoriteRecipes}
           title="Your Favorites"
@@ -106,35 +132,8 @@ const Home = () => {
           onCardClick={handleCardClick}
         />
       </div>
-
-
     </div>
-  )
-}
+  );
+};
 
 export default Home
-
-  /* useEffect(()=>{
-    const verifyToken = async() => {
-      const token = localStorage.getItem('token');
-      
-      try {
-        const response = await fetch(`http://localhost:8000/verify-token`,{
-          method: 'POST',
-          headers: {
-          'Authorization': `Bearer ${token}`,
-          },
-        });
-
-        if(!response.ok){
-          throw new Error('Token verification failed');
-        }
-      
-      setLoading(false);
-      }catch (err){
-          localStorage.removeItem('token');
-          navigate('/')
-      }
-    }
-    verifyToken();
-  }, [navigate]) */

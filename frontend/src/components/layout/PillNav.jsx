@@ -9,6 +9,7 @@ const PillNav = () => {
   const [previousPath, setPreviousPath] = useState(null);
   const homeRef = useRef(null);
   const myRecipesRef = useRef(null);
+  const plannerRef = useRef(null);
   const addRecipeRef = useRef(null);
   const cheffyRef = useRef(null);
 
@@ -38,14 +39,20 @@ const PillNav = () => {
       } else if (isActive('/MyRecipes') && myRecipesRef.current) {
         activeButton = myRecipesRef.current;
         position = homeRef.current ? homeRef.current.offsetWidth + 4 : 0;
+      } else if (isActive('/planner') && plannerRef.current) {
+        activeButton = plannerRef.current;
+        position = (homeRef.current ? homeRef.current.offsetWidth + 4 : 0) + 
+                   (myRecipesRef.current ? myRecipesRef.current.offsetWidth + 4 : 0);
       } else if (isActive('/add-recipe') && addRecipeRef.current) {
         activeButton = addRecipeRef.current;
         position = (homeRef.current ? homeRef.current.offsetWidth + 4 : 0) + 
-                   (myRecipesRef.current ? myRecipesRef.current.offsetWidth + 4 : 0);
+                   (myRecipesRef.current ? myRecipesRef.current.offsetWidth + 4 : 0) +
+                   (plannerRef.current ? plannerRef.current.offsetWidth + 4 : 0);
       } else if (isActive('/cheffy') && cheffyRef.current) {
         activeButton = cheffyRef.current;
         position = (homeRef.current ? homeRef.current.offsetWidth + 4 : 0) + 
                    (myRecipesRef.current ? myRecipesRef.current.offsetWidth + 4 : 0) +
+                   (plannerRef.current ? plannerRef.current.offsetWidth + 4 : 0) +
                    (addRecipeRef.current ? addRecipeRef.current.offsetWidth + 4 : 0);
       }
 
@@ -79,6 +86,13 @@ const PillNav = () => {
           onClick={() => navigate('/MyRecipes')}
         >
           My Recipes
+        </button>
+        <button
+          ref={plannerRef}
+          className={`pill-nav-item ${isActive('/planner') ? 'active' : ''}`}
+          onClick={() => navigate('/planner')}
+        >
+          Planner
         </button>
         <button
           ref={addRecipeRef}

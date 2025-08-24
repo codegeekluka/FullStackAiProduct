@@ -7,6 +7,7 @@ class:`fields.Nested <marshmallow.fields.Nested>`.
     This module is treated as private API.
     Users should not need to use this module directly.
 """
+
 # ruff: noqa: ERA001
 
 from __future__ import annotations
@@ -79,7 +80,9 @@ def get_class(
 ) -> list[SchemaType]: ...
 
 
-def get_class(classname: str, *, all: bool = False) -> list[SchemaType] | SchemaType:  # noqa: A002
+def get_class(
+    classname: str, *, all: bool = False
+) -> list[SchemaType] | SchemaType:  # noqa: A002
     """Retrieve a class from the registry.
 
     :raises: `marshmallow.exceptions.RegistryError` if the class cannot be found

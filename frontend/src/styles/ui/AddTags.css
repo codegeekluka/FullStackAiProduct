@@ -9,18 +9,40 @@
       max-width: 160px;
       z-index: 20;
     }
+
+    /* Mobile responsive styles for tags */
+    @media (max-width: 768px) {
+      .tags-topright {
+        top: 8px;
+        right: 8px;
+        max-width: 140px;
+        gap: 4px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tags-topright {
+        top: 6px;
+        right: 6px;
+        max-width: 120px;
+        gap: 3px;
+      }
+    }
     .tag-pill {
       background: #f4f4f4;
       color: #333;
       border-radius: 20px;
-      padding: 6px 10px;
+      padding: 4px 10px;
       font-size: 0.9rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       cursor: default;
       user-select: none;
-      gap:5px;
+      gap: 5px;
+      position: relative;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
     .tag-remove {
       background: transparent;
@@ -29,16 +51,80 @@
       line-height: 1;
       color: #666;
       cursor: pointer;
-      padding: 0 0 0 0;
+      padding: 0;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     .tag-text {
-      line-height: 1;
+      line-height: 1.2;
       margin: 0;
-      display:inline-block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    /* When in edit mode, left-align text and keep right padding for × button */
+    .tag-pill.edit-mode {
+      justify-content: flex-start;
+    }
+    
+    .tag-pill.edit-mode .tag-text {
+      padding-right: 20px;
+      justify-content: flex-start;
+      text-align: left;
+    }
+    
+    /* When not in edit mode, remove right padding for perfect centering */
+    .tag-pill:not(.edit-mode) .tag-text {
+      padding-right: 0;
     }
     .tag-remove:hover {
       color: #000;
+    }
+
+    /* Mobile responsive styles for tag pills */
+    @media (max-width: 768px) {
+      .tag-pill {
+        padding: 3px 8px;
+        font-size: 0.8rem;
+        gap: 4px;
+      }
+
+      .tag-text {
+        font-size: 0.8rem;
+      }
+
+      .tag-remove {
+        font-size: 1rem;
+        right: 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tag-pill {
+        padding: 2px 6px;
+        font-size: 0.75rem;
+        gap: 3px;
+      }
+
+      .tag-text {
+        font-size: 0.75rem;
+      }
+
+      .tag-remove {
+        font-size: 0.9rem;
+        right: 4px;
+      }
     }
 
     .icon-button.add-tags-btn {
@@ -57,16 +143,12 @@
     }
 
     .tags-popup {
-        position: absolute;
-        bottom: 60px;        /* Slightly above the buttons */
-        right: 0;            /* Align to the right edge of container */
         background: white;
         border-radius: 12px; /* More rounded corners */
         padding: 16px 20px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Softer, bigger shadow */
         width: 260px;
         font-family: 'Inter', sans-serif;
-        z-index: 20;
         display: flex;
         flex-direction: column;
         gap: 12px;
@@ -105,18 +187,24 @@
       }
       
       .custom-tag-input input {
-        flex-grow: 1;
-        min-width:0;
-        padding: 8px 12px;
-        font-size: 1rem;
-        border-radius: 8px;
-        border: 1.5px solid #ccc;
-        font-family: 'Inter', sans-serif;
+        flex-grow: 1 !important;
+        min-width: 0 !important;
+        padding: 8px 12px !important;
+        font-size: 1rem !important;
+        border-radius: 8px !important;
+        border: 1.5px solid #ccc !important;
+        font-family: 'Inter', sans-serif !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        box-sizing: border-box !important;
+        background-color: white !important;
+        color: #333 !important;
       }
       
       .custom-tag-input input:focus {
-        outline: none;
-        border-color: #333;
+        outline: none !important;
+        border-color: #333 !important;
       }
       
       .custom-tag-input button {

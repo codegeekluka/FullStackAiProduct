@@ -6,20 +6,28 @@
   
   .tag-dropdown-toggle {
     width: 100%;
-    padding: 0.6rem 1rem;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
     font-size: 0.95rem;
-    transition: box-shadow 0.2s;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    color: var(--color-text-primary);
   }
   
   .tag-dropdown-toggle:hover {
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--color-border-secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
   }
   
   .tag-dropdown-menu {
@@ -27,9 +35,12 @@
     top: calc(100% + 6px);
     left: 0;
     width: 100%;
-    background: white;
+    background: var(--color-background-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border-glass);
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    box-shadow: var(--shadow-lg);
     list-style: none;
     padding: 0.4rem 0;
     margin: 0;
@@ -40,9 +51,74 @@
     padding: 0.5rem 1rem;
     cursor: pointer;
     transition: background 0.2s;
+    color: var(--color-text-primary);
   }
   
   .tag-dropdown-menu li:hover {
-    background: #f3f3f3;
+    background: var(--color-background-glass-secondary);
+  }
+  
+  .tag-dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .tag-name {
+    flex: 1;
+  }
+  
+  .checkmark {
+    color: #4caf50;
+    flex-shrink: 0;
+  }
+  
+  /* Mobile responsive styles */
+  @media (max-width: 600px) {
+    .tag-dropdown {
+      width: 140px;
+    }
+    
+    .tag-dropdown-toggle {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .tag-dropdown-toggle span {
+      display: block;
+    }
+    
+    .arrow {
+      display: block;
+    }
+    
+    .filter-icon {
+      display: none;
+    }
+  }
+  
+  .filter-icon {
+    display: none;
+  }
+  
+  /* Compact time dropdown styles */
+  .tag-dropdown.time-dropdown {
+    width: auto;
+    min-width: 80px;
+  }
+  
+  .tag-dropdown.time-dropdown .tag-dropdown-toggle {
+    white-space: nowrap;
+    min-width: 80px;
+  }
+  
+  .tag-dropdown.time-dropdown .tag-dropdown-menu {
+    width: 160px;
+    left: 50%;
+    transform: translateX(-50%);
   }
   

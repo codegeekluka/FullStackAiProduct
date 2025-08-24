@@ -131,7 +131,7 @@
   justify-content: center;
 }
 
-.cancel-button {
+.help-cancel-button {
   background: rgba(100, 116, 139, 0.1);
   color: #64748b;
   border: 1px solid rgba(100, 116, 139, 0.2);
@@ -143,12 +143,12 @@
   transition: all 0.3s ease;
 }
 
-.cancel-button:hover {
+.help-cancel-button:hover {
   background: rgba(100, 116, 139, 0.15);
   border-color: rgba(100, 116, 139, 0.3);
 }
 
-.confirm-button {
+.help-confirm-button {
   background: linear-gradient(135deg, #8b5cf6, #a855f7);
   color: white;
   border: none;
@@ -161,7 +161,7 @@
   box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
 }
 
-.confirm-button:hover {
+.help-confirm-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
 }

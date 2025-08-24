@@ -19,13 +19,14 @@ import whisper
 
 try:
     from whisper import operator
+
     HAS_OPERATOR = True
 except ImportError:
     HAS_OPERATOR = False
 
-import time
-import sys
 import optparse
+import sys
+import time
 
 if sys.version_info >= (3, 0):
     xrange = range
@@ -42,10 +43,12 @@ def itemgetter(*items):
 
             def g(obj):
                 return obj[item]
+
         else:
 
             def g(obj):
                 return tuple(obj[item] for item in items)
+
         return g
 
 
@@ -54,11 +57,11 @@ def fill(src, dst, tstart, tstop):
     # precision archive, thus optionally requiring multiple fetch + merges
     srcHeader = whisper.info(src)
 
-    srcArchives = srcHeader['archives']
-    srcArchives.sort(key=itemgetter('retention'))
+    srcArchives = srcHeader["archives"]
+    srcArchives.sort(key=itemgetter("retention"))
 
     # find oldest point in time, stored by both files
-    srcTime = int(time.time()) - srcHeader['maxRetention']
+    srcTime = int(time.time()) - srcHeader["maxRetention"]
 
     if tstart < srcTime and tstop < srcTime:
         return
@@ -69,7 +72,7 @@ def fill(src, dst, tstart, tstop):
     # skip forward at max 'step' points at a time
     for archive in srcArchives:
         # skip over archives that don't have any data points
-        rtime = time.time() - archive['retention']
+        rtime = time.time() - archive["retention"]
         if tstop <= rtime:
             continue
 
@@ -78,9 +81,12 @@ def fill(src, dst, tstart, tstop):
 
         (timeInfo, values) = whisper.fetch(src, fromTime, untilTime)
         (start, end, archive_step) = timeInfo
-        pointsToWrite = list(filter(
-            lambda points: points[1] is not None,
-            zip(xrange(start, end, archive_step), values)))
+        pointsToWrite = list(
+            filter(
+                lambda points: points[1] is not None,
+                zip(xrange(start, end, archive_step), values),
+            )
+        )
         # order points by timestamp, newest first
         pointsToWrite.sort(key=lambda p: p[0], reverse=True)
         whisper.update_many(dst, pointsToWrite)
@@ -94,11 +100,11 @@ def fill(src, dst, tstart, tstop):
 
 def fill_archives(src, dst, startFrom):
     header = whisper.info(dst)
-    archives = header['archives']
-    archives = sorted(archives, key=lambda t: t['retention'])
+    archives = header["archives"]
+    archives = sorted(archives, key=lambda t: t["retention"])
 
     for archive in archives:
-        fromTime = time.time() - archive['retention']
+        fromTime = time.time() - archive["retention"]
         if fromTime >= startFrom:
             continue
 
@@ -110,7 +116,7 @@ def fill_archives(src, dst, startFrom):
                 gapstart = start
             elif v and gapstart:
                 # ignore single units lost
-                if (start - gapstart) > archive['secondsPerPoint']:
+                if (start - gapstart) > archive["secondsPerPoint"]:
                     fill(src, dst, gapstart - step, start)
                 gapstart = None
             elif gapstart and start == end - step:
@@ -123,11 +129,12 @@ def fill_archives(src, dst, startFrom):
 
 def main():
     option_parser = optparse.OptionParser(
-        usage='%prog [--lock] src dst',
-        description='copies data from src in dst, if missing')
+        usage="%prog [--lock] src dst",
+        description="copies data from src in dst, if missing",
+    )
     option_parser.add_option(
-        '--lock', help='Lock whisper files',
-        default=False, action='store_true')
+        "--lock", help="Lock whisper files", default=False, action="store_true"
+    )
     (options, args) = option_parser.parse_args()
 
     if len(args) != 2:

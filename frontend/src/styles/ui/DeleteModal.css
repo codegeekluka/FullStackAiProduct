@@ -16,7 +16,9 @@
   .modal-card {
     width: 300px;
     height: fit-content;
-    background: rgb(255, 255, 255);
+    background: var(--color-background-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -25,7 +27,8 @@
     gap: 20px;
     padding: 30px;
     position: relative;
-    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.068);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border-glass);
   }
   
   /* Content inside the card */
@@ -40,12 +43,12 @@
   .modal-heading {
     font-size: 20px;
     font-weight: 700;
-    color: rgb(27, 27, 27);
+    color: var(--color-text-primary);
   }
   
   .modal-description {
     font-weight: 100;
-    color: rgb(102, 102, 102);
+    color: var(--color-text-secondary);
   }
   
   /* Button container */
@@ -78,10 +81,11 @@
   
   /* Secondary = cancel */
   .modal-button.secondary {
-    background-color: #ddd;
+    background-color: var(--color-border);
+    color: var(--color-text-primary);
   }
   .modal-button.secondary:hover {
-    background-color: rgb(197, 197, 197);
+    background-color: var(--color-border-secondary);
   }
   
   /* Exit (X) button in top right */
@@ -98,11 +102,11 @@
   }
   
   .modal-exit-button:hover svg {
-    fill: black;
+    fill: var(--color-text-primary);
   }
   
   .modal-exit-button svg {
-    fill: rgb(175, 175, 175);
+    fill: var(--color-text-secondary);
     height: 20px;
   }
   

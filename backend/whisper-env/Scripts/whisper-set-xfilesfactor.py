@@ -1,17 +1,23 @@
 #!C:\Users\lukal\programs\Recipe App\backend\whisper-env\Scripts\python.exe
 
-import sys
 import argparse
+import sys
+
 import whisper
 
 
 def main():
     """Set xFilesFactor for existing whisper file"""
     parser = argparse.ArgumentParser(
-        description='Set xFilesFactor for existing whisper file')
-    parser.add_argument('path', type=str, help='path to whisper file')
-    parser.add_argument('xff', metavar='xFilesFactor', type=float,
-                        help='new xFilesFactor, a float between 0 and 1')
+        description="Set xFilesFactor for existing whisper file"
+    )
+    parser.add_argument("path", type=str, help="path to whisper file")
+    parser.add_argument(
+        "xff",
+        metavar="xFilesFactor",
+        type=float,
+        help="new xFilesFactor, a float between 0 and 1",
+    )
 
     args = parser.parse_args()
 
@@ -22,10 +28,9 @@ def main():
         parser.print_help()
         sys.exit(1)
     except whisper.WhisperException as exc:
-        raise SystemExit('[ERROR] %s' % str(exc))
+        raise SystemExit("[ERROR] %s" % str(exc))
 
-    print('Updated xFilesFactor: %s (%s -> %s)' %
-          (args.path, old_xff, args.xff))
+    print("Updated xFilesFactor: %s (%s -> %s)" % (args.path, old_xff, args.xff))
 
 
 if __name__ == "__main__":

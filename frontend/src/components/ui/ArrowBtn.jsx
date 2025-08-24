@@ -9,10 +9,11 @@ const ArrowButton = ({ direction, onClick, style }) => {
             background: "none",
             border: "none",
             cursor: "pointer",
-            padding: "8px",
+            padding: "2px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            color: "var(--color-text-primary)",
             ...style, // Merge any additional styles passed as props
         }}
         aria-label="Previous"

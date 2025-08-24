@@ -1,9 +1,10 @@
+import { createPortal } from 'react-dom';
 import '../../styles/ui/DeleteModal.css'
 
 export default function DeleteModal({ isOpen, onClose, onDelete }) {
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div className="modal-overlay">
       <div className="modal-card">
         <button className="modal-exit-button" onClick={onClose} aria-label="Close modal">
@@ -30,4 +31,6 @@ export default function DeleteModal({ isOpen, onClose, onDelete }) {
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }

@@ -1,0 +1,187 @@
+/* ==========================================================================
+   ONBOARDING MODAL - COMPONENTS LAYER
+   ========================================================================== */
+
+/**
+ * Modal Component
+ * Reusable modal overlay and content container
+ * 
+ * @example
+ * <div class="modal">
+ *   <div class="modal__overlay">
+ *     <div class="modal__content">
+ *       <div class="modal__header">...</div>
+ *       <div class="modal__body">...</div>
+ *       <div class="modal__footer">...</div>
+ *     </div>
+ *   </div>
+ * </div>
+ */
+
+/* ==========================================================================
+   MODAL COMPONENT
+   ========================================================================== */
+
+/* Onboarding-specific modal styles */
+.onboarding .modal,
+.modal.onboarding-modal {
+  /* Layout */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  
+  /* Visual */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  
+  /* Flexbox for centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Spacing */
+  padding: 1rem;
+  
+  /* Ensure it's not constrained by parent */
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.onboarding .modal__content,
+.modal.onboarding-modal .modal__content {
+  /* Layout */
+  max-width: 31.25rem; /* 500px */
+  width: 100%;
+  max-height: 90vh;
+  min-width: 20rem; /* 320px */
+  
+  /* Visual */
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 1.5rem; /* 24px */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 1.25rem 1.5625rem -0.3125rem rgba(0, 0, 0, 0.1),
+    0 0.625rem 0.625rem -0.3125rem rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  
+  /* Overflow handling */
+  overflow: hidden;
+  
+  /* Animation */
+  animation: modal-slide-in 0.3s ease;
+}
+
+@keyframes modal-slide-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ==========================================================================
+   MODAL SECTIONS
+   ========================================================================== */
+
+.onboarding .modal__header,
+.modal.onboarding-modal .modal__header {
+  /* Layout */
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+  
+  /* Visual */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.onboarding .modal__title,
+.modal.onboarding-modal .modal__title {
+  /* Typography */
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.025em;
+  
+  /* Spacing */
+  margin-bottom: 0.5rem;
+}
+
+.onboarding .modal__subtitle,
+.modal.onboarding-modal .modal__subtitle {
+  /* Typography */
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.onboarding .modal__body,
+.modal.onboarding-modal .modal__body {
+  /* Layout */
+  padding: 0.75rem 2rem; /* Reduced from 1rem */
+  max-height: 60vh;
+  
+  /* Overflow handling */
+  overflow-y: auto;
+}
+
+.onboarding .modal__footer,
+.modal.onboarding-modal .modal__footer {
+  /* Layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  
+  /* Spacing */
+  padding: 0.75rem 2rem 1.5rem;
+  gap: 1rem;
+  min-height: 3.75rem; /* 60px */
+}
+
+/* ==========================================================================
+   MODAL FOOTER LAYOUTS
+   ========================================================================== */
+
+.onboarding .modal__footer--two-buttons,
+.modal.onboarding-modal .modal__footer--two-buttons {
+  justify-content: space-between;
+}
+
+.onboarding .modal__footer--two-buttons .btn--skip,
+.modal.onboarding-modal .modal__footer--two-buttons .btn--skip {
+  order: 1;
+}
+
+.onboarding .modal__footer--two-buttons .btn--primary,
+.modal.onboarding-modal .modal__footer--two-buttons .btn--primary {
+  order: 2;
+}
+
+.onboarding .modal__footer--three-buttons,
+.modal.onboarding-modal .modal__footer--three-buttons {
+  justify-content: space-between;
+}
+
+.onboarding .modal__footer--three-buttons .btn--secondary,
+.modal.onboarding-modal .modal__footer--three-buttons .btn--secondary {
+  order: 1;
+}
+
+.onboarding .modal__footer--three-buttons .btn--skip,
+.modal.onboarding-modal .modal__footer--three-buttons .btn--skip {
+  order: 2;
+  margin: 0 auto;
+}
+
+.onboarding .modal__footer--three-buttons .btn--primary,
+.modal.onboarding-modal .modal__footer--three-buttons .btn--primary {
+  order: 3;
+}

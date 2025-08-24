@@ -3,7 +3,7 @@ export default function TagsPills({ tags, onRemoveTag, editMode = false }) {
     return (
       <div className="tags-topright">
         {tags.map(tag => (
-          <div key={tag} className="tag-pill">
+          <div key={tag} className={`tag-pill ${editMode ? 'edit-mode' : ''}`}>
             {editMode && (
               <button
                 className="tag-remove"
@@ -13,7 +13,11 @@ export default function TagsPills({ tags, onRemoveTag, editMode = false }) {
                 ×
               </button>
             )}
-            <p className="tag-text">{tag}</p>
+            <p className="tag-text">
+              {tag.split(' ').length > 12 
+                ? tag.split(' ').slice(0, 12).join(' ') + '...' 
+                : tag}
+            </p>
           </div>
         ))}
       </div>

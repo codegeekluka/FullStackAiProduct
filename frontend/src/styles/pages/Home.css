@@ -1,34 +1,87 @@
 body {
-    background-color: #f0f0f0;
+    background-color: var(--color-background);
     
 }
 
 .home{
-    padding: 20px 20 px;
+    padding: 0;
     box-sizing: border-box;
     max-width: 1200px; /* optional max width to keep layout sane */
     margin: 0 auto; /* center container horizontally */
+    background-color: var(--color-background);
 }
 
 .add-recipe {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap; /* allow buttons to wrap on small screens */
-    padding: 0 10px; /* horizontal padding inside container */
-    background-image: url('pexels-enginakyurt-1435895.jpg');
-    background-size: 1200px 400px;
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: visible;
-    width:100%;
-    height:400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 0 10px; /* horizontal padding inside container */
+  background-image: url('pexels-enginakyurt-1435895.jpg');
+  background-size: 1200px 400px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--color-primary); /* Theme-aware fallback in case image fails to load */
+  overflow: visible;
+  width:100%;
+  height:400px;
+  color: var(--color-text-inverse);
+  text-align: center;
+  position: relative;
+}
+
+/* Add overlay for better text readability - only in dark mode */
+.theme-dark .add-recipe::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-primary);
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.add-recipe h1,
+.add-recipe p {
+  position: relative;
+  z-index: 2;
+}
+
+/* Only apply z-index in dark mode when overlay is present */
+.theme-dark .add-recipe h1,
+.theme-dark .add-recipe p {
+  z-index: 2;
+}
+
+.add-recipe h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  color: var(--color-text-inverse);
+}
+
+.add-recipe p {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--color-text-inverse);
+}
+
+/* Add text shadow only in dark mode for better readability */
+.theme-dark .add-recipe h1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: white !important;
+}
+
+.theme-dark .add-recipe p {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  color: white !important;
 }
 
 /* Removed duplicate h2 rule */
 
-.recipe-list {
+.home .recipe-list {
     display: flex;
     overflow-x: auto;      /* Enable horizontal scrolling */
     scroll-behavior: smooth;  /* Smooth scroll when using arrows */
@@ -36,6 +89,11 @@ body {
     padding-bottom: 10px;  /* Optional: space for scrollbar */
     scrollbar-width: none; /* Firefox scrollbar style */
     -ms-overflow-style: none;
+    padding-top: 10px;
+    background-color: var(--color-background) !important;
+    border-radius:10px;
+    /* Debug: ensure background is visible */
+    min-height: 200px;
 }
 
 
@@ -52,6 +110,8 @@ body {
     padding-left: 4px;
     margin-left: 20px;
     margin-right: 20px;
+    color: var(--color-text-primary) !important;
+    font-weight: 600;
   }
   
   .bottom-container {
@@ -61,34 +121,108 @@ body {
 
   .carousel-container {
     margin-bottom: 30px;
+    background-color: var(--color-background) !important;
   }
 
   .carousel-container h2 {
     padding-left: 4px;
     margin-left: 20px;
     margin-right: 20px;
+    color: var(--color-text-primary) !important;
+    font-weight: 600;
   }
 
 
-.insert-recipe-btn {
-min-width: 150px;
-  min-height: 150px;
 
-  width: clamp(150px, 20vw, 200px);
-  height: clamp(150px, 20vw, 200px);
 
-  border-radius: 20px;
-  background-color: #6E3482;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin: 10px 0 10px 0;
+/* Responsive Design */
+@media (max-width: 1024px) {
+  
+  .home h2 {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  
+  .carousel-container h2 {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
 }
 
-.insert-recipe-btn:hover{
-    background-color:#A56ABD;
-    transition: 0.3s;
-    cursor:pointer; 
+@media (max-width: 768px) {
+  .add-recipe {
+    height: 300px;
+    background-size: cover;
+  }
+  
+  .add-recipe h1 {
+    font-size: 2.25rem;
+  }
+  
+  .add-recipe p {
+    font-size: 1.125rem;
+  }
+  
+  .home h2 {
+    margin-left: 12px;
+    margin-right: 12px;
+    font-size: 1.5rem;
+  }
+  
+  .carousel-container h2 {
+    margin-left: 12px;
+    margin-right: 12px;
+    font-size: 1.5rem;
+  }
+  
+  .carousel-container {
+    margin-bottom: 20px;
+  }
+  
+  .home .recipe-list {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-recipe {
+    height: 250px;
+  }
+  
+  .add-recipe h1 {
+    font-size: 1.875rem;
+  }
+  
+  .add-recipe p {
+    font-size: 1rem;
+  }
+ 
+  .home h2 {
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 1.25rem;
+  }
+  
+  .carousel-container h2 {
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 1.25rem;
+  }
+  
+  .carousel-container {
+    margin-bottom: 15px;
+  }
+  
+  .home .recipe-list {
+    gap: 6px;
+  }
+  
+  .bottom-container {
+    padding: 0 4px;
+  }
+  
+  /* Add bottom padding for mobile bottom navigation */
+  .home {
+    padding-bottom: 100px;
+  }
 }

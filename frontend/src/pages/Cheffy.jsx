@@ -4,14 +4,17 @@ import { createPortal } from 'react-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import useAIAssistantStore from '../stores/aiAssistantStore';
 import { getActiveRecipe } from '../services/getActiveRecipe';
+import { removeActiveRecipe } from '../services/removeActiveRecipe';
 import '../styles/ai/Cheffy.css';
+import '../styles/ai/HelpModals.css';
 import PillNav from '../components/layout/PillNav.jsx';
+import BottomNav from '../components/layout/BottomNav.jsx';
 import ChatMessage from '../components/ai/ChatMessage.jsx';
 import AiPageRecipeCard from '../components/ai/AiPageRecipeCard.jsx';
 import ChatInput from '../components/ai/ChatInput.jsx';
 
 const Cheffy = () => {
-  const { user } = useContext(AuthContext);
+  const { user, userProfile } = useContext(AuthContext);
   const navigate = useNavigate();
   const {
     sessionId,
@@ -39,6 +42,36 @@ const Cheffy = () => {
   const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = React.useRef(null);
   const inputRef = React.useRef(null);
+
+  // Helper function to construct full image URL
+  const getImageUrl = (relativeUrl) => {
+    if (!relativeUrl) return null;
+    // If it's already a full URL, return as is
+    if (relativeUrl.startsWith('http')) return relativeUrl;
+    // Otherwise, prepend the backend URL
+    return `http://localhost:8000${relativeUrl}`;
+  };
+
+  // Get hero image with fallbacks
+  const getHeroImageStyle = () => {
+    if (userProfile?.hero_image_url) {
+      const fullImageUrl = getImageUrl(userProfile.hero_image_url);
+      return {
+        backgroundImage: `url('${fullImageUrl}')`,
+        backgroundSize: '1200px 400px',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
+    } else {
+      // Fallback to default image
+      return {
+        backgroundImage: `url('pexels-enginakyurt-1435895.jpg')`,
+        backgroundSize: '1200px 400px',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
+    }
+  };
 
   // Help Dropdown Component
   const HelpDropdown = () => (
@@ -267,10 +300,25 @@ const Cheffy = () => {
     }
   };
 
+  const handleRemoveActiveRecipe = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        await removeActiveRecipe(token);
+        // Refresh the active recipe state
+        const recipe = await getActiveRecipe(token);
+        setActiveRecipe(recipe);
+      }
+    } catch (error) {
+      console.error('Failed to remove active recipe:', error);
+    }
+  };
+
   if (error) {
     return (
       <div className="cheffy-container">
         <PillNav />
+        <BottomNav />
         <div className="ai-assistant-error">
           <div className="error-content">
             <h3>AI Assistant Error</h3>
@@ -285,12 +333,13 @@ const Cheffy = () => {
   return (
     <div className="cheffy-container">
       {/* Hero Section */}
-      <div className="cheffy-hero">
+      <div className="cheffy-hero" style={getHeroImageStyle()}>
         <h1>Cheffy AI Assistant</h1>
         <p>Your personal AI cooking companion</p>
       </div>
       
       <PillNav />
+      <BottomNav />
       
       {/* AI Assistant Chat Panel */}
       <div className="ai-chat-panel">
@@ -303,13 +352,13 @@ const Cheffy = () => {
               <p>Do you want to switch to this recipe?</p>
               <div className="confirmation-buttons">
                 <button 
-                  className="cancel-button"
+                  className="help-cancel-button"
                   onClick={handleCancelSessionSwitch}
                 >
                   Cancel
                 </button>
                 <button 
-                  className="confirm-button"
+                  className="help-confirm-button"
                   onClick={handleConfirmSessionSwitch}
                 >
                   Switch Session
@@ -358,17 +407,32 @@ const Cheffy = () => {
             ) : (
               <h3>AI Chef Assistant</h3>
             )}
-                         <button 
-               className="info-button"
-               onClick={() => setShowHelpDropdown(!showHelpDropdown)}
-               title="Help Information"
-             >
-               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                 <circle cx="12" cy="12" r="10"/>
-                 <path d="M10 8.484C10.5 7.494 11 7 12 7c1.246 0 2.453.45 2.5 1.5 0 .5-.5 1-1 1.5-.5.5-1 1-1 1.5v1"/>
-                 <circle cx="12" cy="16" r="0.8"/>
-               </svg>
-             </button>
+            <div className="header-actions">
+              {!sessionId && activeRecipe && (
+                <button 
+                  className="remove-active-button"
+                  onClick={handleRemoveActiveRecipe}
+                  title="Remove Active Recipe"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                  Remove
+                </button>
+              )}
+              <button 
+                className="info-button"
+                onClick={() => setShowHelpDropdown(!showHelpDropdown)}
+                title="Help Information"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M10 8.484C10.5 7.494 11 7 12 7c1.246 0 2.453.45 2.5 1.5 0 .5-.5 1-1 1.5-.5.5-1 1-1 1.5v1"/>
+                  <circle cx="12" cy="16" r="0.8"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           {/* Messages */}

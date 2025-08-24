@@ -2,6 +2,42 @@ import { useState, useEffect, useRef } from 'react';
 import RecipeCard from './RecipeCard.jsx';
 import ArrowButton from '../ui/ArrowBtn.jsx';
 
+// Add More Card Component
+const AddMoreCard = ({ tagType }) => {
+  const getTagText = (title) => {
+    switch (title) {
+      case "Your Favorites":
+        return "favorite";
+      case "Easy Recipes":
+        return "easy";
+      case "Budget-Friendly":
+        return "cheap";
+      case "Quick & Easy":
+        return "quick";
+      case "Healthy Options":
+        return "healthy";
+      case "All Your Recipes":
+        return "recipe";
+      default:
+        return "recipe";
+    }
+  };
+
+  const tagText = getTagText(tagType);
+
+  return (
+    <div className="add-more-card">
+      <div className="add-more-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      </div>
+      <p className="add-more-text">Add more {tagText} recipes</p>
+    </div>
+  );
+};
+
 const RecipeCarousel = ({ recipes, title, onCardClick }) => {
   const scrollRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -46,9 +82,11 @@ const RecipeCarousel = ({ recipes, title, onCardClick }) => {
     return null; // Don't render carousel if no recipes
   }
 
+  const shouldShowAddMore = recipes.length < 4;
+
   return (
     <div className="carousel-container">
-      <h2 style={{ paddingLeft: "20px"}}>{title}</h2>
+      <h2>{title}</h2>
       <div style={{ display: "flex", alignItems: "center" }}>
         <ArrowButton 
           direction="left" 
@@ -63,6 +101,9 @@ const RecipeCarousel = ({ recipes, title, onCardClick }) => {
               onClick={() => onCardClick(recipe.slug)}
             />
           ))}
+          {shouldShowAddMore && (
+            <AddMoreCard tagType={title} />
+          )}
         </div>
         <ArrowButton 
           direction="right" 

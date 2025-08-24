@@ -1,0 +1,295 @@
+/* ==========================================================================
+   PREFERENCES STEP - COMPONENTS LAYER
+   ========================================================================== */
+
+/**
+ * Preferences Step Component
+ * Handles user preference selection including checkboxes and radio buttons
+ * 
+ * @example
+ * <div class="preferences-step">
+ *   <div class="progress">
+ *     <div class="progress__pills">
+ *       <div class="progress__pill progress__pill--active"></div>
+ *     </div>
+ *   </div>
+ *   <div class="checkbox-group">
+ *     <label class="checkbox-item checkbox-item--selected">
+ *       <input class="checkbox-item__input" type="checkbox" />
+ *       <span class="checkbox-item__label">...</span>
+ *     </label>
+ *   </div>
+ * </div>
+ */
+
+/* ==========================================================================
+   PROGRESS INDICATOR COMPONENTS
+   ========================================================================== */
+
+.progress {
+  margin: 1.25rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.progress__pills {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.progress__pill {
+  width: 1.25rem;
+  height: 0.375rem;
+  border-radius: 0.1875rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.progress__pill--active {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.progress__pill--completed {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* ==========================================================================
+   CHECKBOX COMPONENTS
+   ========================================================================== */
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 1.25rem;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.checkbox-item:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #9333ea;
+  transform: translateY(-0.0625rem);
+}
+
+.checkbox-item--selected {
+  background: linear-gradient(135deg, #9333ea, #4f46e5);
+  border-color: #9333ea;
+  box-shadow: 0 0.25rem 0.75rem rgba(147, 51, 234, 0.3);
+  color: white;
+}
+
+.checkbox-item__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.checkbox-item__label {
+  cursor: pointer;
+}
+
+.checkbox-item--selected .checkbox-item__label {
+  color: white;
+}
+
+/* ==========================================================================
+   RADIO COMPONENTS
+   ========================================================================== */
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.radio-item {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 1.25rem;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.radio-item:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #9333ea;
+  transform: translateY(-0.0625rem);
+}
+
+.radio-item--selected {
+  background: linear-gradient(135deg, #9333ea, #4f46e5);
+  border-color: #9333ea;
+  box-shadow: 0 0.25rem 0.75rem rgba(147, 51, 234, 0.3);
+  color: white;
+}
+
+.radio-item__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.radio-item__label {
+  cursor: pointer;
+}
+
+.radio-item--selected .radio-item__label {
+  color: white;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* Tablet and smaller desktop */
+@media (min-width: 48rem) {
+  .progress__pill {
+    width: 1rem;
+    height: 0.3125rem;
+  }
+  
+  .checkbox-item,
+  .radio-item {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.85rem;
+    border-radius: 1.125rem;
+    min-height: 2.25rem;
+  }
+  
+  .checkbox-group,
+  .radio-group {
+    gap: 0.5rem;
+    margin-top: 0.625rem;
+  }
+  
+  .progress {
+    margin: 1rem 0;
+  }
+  
+  .progress__pills {
+    gap: 0.1875rem;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 30rem) {
+  .progress__pill {
+    width: 0.875rem;
+    height: 0.25rem;
+  }
+  
+  .checkbox-item,
+  .radio-item {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.8rem;
+    border-radius: 1rem;
+    min-height: 2rem;
+  }
+  
+  .checkbox-group,
+  .radio-group {
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+  }
+  
+  .progress {
+    margin: 0.75rem 0;
+  }
+  
+  .progress__pills {
+    gap: 0.125rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 22.5rem) {
+  .progress__pill {
+    width: 0.75rem;
+    height: 0.1875rem;
+  }
+  
+  .checkbox-item,
+  .radio-item {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 0.875rem;
+    min-height: 1.75rem;
+  }
+  
+  .checkbox-group,
+  .radio-group {
+    gap: 0.25rem;
+    margin-top: 0.375rem;
+  }
+  
+  .progress {
+    margin: 0.625rem 0;
+  }
+  
+  .progress__pills {
+    gap: 0.125rem;
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .checkbox-item,
+  .radio-item {
+    border-width: 0.5px;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .checkbox-item,
+  .radio-item {
+    transition: none;
+  }
+  
+  .checkbox-item:hover,
+  .radio-item:hover {
+    transform: none;
+  }
+  
+  .progress__pill {
+    transition: none;
+  }
+}
+
+
+

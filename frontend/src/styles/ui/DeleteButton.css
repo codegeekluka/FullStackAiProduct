@@ -68,8 +68,51 @@
   }
   
   .delete-button:hover::before {
-    font-size: 13px;
-    opacity: 1;
-    transform: translateY(30px);
-    transition-duration: .3s;
+  font-size: 13px;
+  opacity: 1;
+  transform: translateY(30px);
+  transition-duration: .3s;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .delete-button {
+    width: 48px;
+    height: 48px;
   }
+  
+  .delete-button:hover {
+    width: 120px;
+  }
+  
+  .svgIcon {
+    width: 12px;
+  }
+  
+  .delete-button:hover .svgIcon {
+    width: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .delete-button {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .delete-button:hover {
+    width: 100px;
+  }
+  
+  .svgIcon {
+    width: 10px;
+  }
+  
+  .delete-button:hover .svgIcon {
+    width: 42px;
+  }
+  
+  .delete-button:hover::before {
+    font-size: 12px;
+  }
+}

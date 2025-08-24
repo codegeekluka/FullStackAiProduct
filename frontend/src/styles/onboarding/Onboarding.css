@@ -1,0 +1,79 @@
+/* ==========================================================================
+   ONBOARDING - BASE LAYER
+   ========================================================================== */
+
+/**
+ * Onboarding Container
+ * Main container for the onboarding flow
+ * 
+ * @example
+ * <div class="onboarding">
+ *   <div class="onboarding__content">
+ *     <!-- onboarding content -->
+ *   </div>
+ * </div>
+ */
+
+.onboarding {
+  /* Layout */
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  
+  /* Visual */
+  background-color: var(--color-white, #ffffff);
+  
+  /* Ensure box-sizing is applied to all children */
+  & * {
+    box-sizing: border-box;
+  }
+  
+  /* Hide other elements during onboarding */
+  & ~ * {
+    display: none !important;
+  }
+  
+  /* Ensure modal can break out of this container - only for onboarding modals */
+  & .modal.onboarding-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* Mobile-first approach - no media query needed for base styles */
+
+/* Tablet and smaller desktop */
+/* Media query for 768px+ - no specific adjustments needed currently */
+
+/* Desktop */
+/* Media query for 1024px+ - no specific adjustments needed currently */
+
+/* Large desktop */
+/* Media query for 1280px+ - no specific adjustments needed currently */
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+/* Reduced motion for accessibility */
+/* Media query for reduced motion - no specific adjustments needed currently */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .onboarding {
+    background-color: var(--color-white, #ffffff);
+    border: 1px solid var(--color-black, #000000);
+  }
+} 

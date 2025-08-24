@@ -5,12 +5,12 @@
 @import './Aipagerecipecard.css';
 @import './Messages.css';
 @import './HelpModals.css';
-@import '../shared/utilities.css';
+@import '../utilities.css';
 
 /* Main Container */
 .cheffy-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+  background: var(--color-background);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   max-width: 1200px;
   margin: 0 auto;
@@ -29,24 +29,47 @@
   background-size: 1200px 400px;
   background-position: center;
   background-repeat: no-repeat;
+  background-color: var(--color-primary); /* Theme-aware fallback */
   overflow: visible;
   width: 100%;
   height: 400px;
-  color: white;
+  color: var(--color-text-inverse);
   text-align: center;
   margin-bottom: 20px;
+  position: relative;
+}
+
+/* Add overlay for better text readability */
+.cheffy-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-primary);
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.cheffy-hero h1,
+.cheffy-hero p {
+  position: relative;
+  z-index: 2;
 }
 
 .cheffy-hero h1 {
   font-size: 2.5rem;
   margin: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: white !important;
 }
 
 .cheffy-hero p {
   font-size: 1.2rem;
   margin: 0;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  color: white !important;
 }
 
 /* AI Chat Panel */
@@ -103,5 +126,12 @@
   
   .cheffy-hero p {
     font-size: 1rem;
+  }
+}
+
+/* Add bottom padding for mobile bottom navigation */
+@media (max-width: 640px) {
+  .cheffy-container {
+    padding-bottom: 100px;
   }
 }
