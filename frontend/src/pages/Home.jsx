@@ -1,18 +1,16 @@
-import RecipeCard from '../components/RecipeCard.jsx'
-import '../styles/Home.css'
+import '../styles/pages/Home.css'
 import Login from './Login.jsx'
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext, useRef } from 'react'
-import ScrapeWebsiteBtn from '../components/ScrapeWebsiteBtn.jsx'
+import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext.jsx';
-import ArrowButton from '../components/ArrowBtn.jsx';
+import RecipeCarousel from '../components/pages/RecipeCarousel.jsx';
+import PillNav from '../components/layout/PillNav.jsx';
+import BottomNav from '../components/layout/BottomNav.jsx';
 
 
 const Home = () => {
-  const { recipes, user, loading, fetchUserRecipes} = useContext(AuthContext)
+  const { recipes, user, userProfile, loading, fetchUserRecipes, setNavOrigin} = useContext(AuthContext)
   const navigate = useNavigate();
-  const scrollRef = useRef(null);
-  
   
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -20,79 +18,122 @@ const Home = () => {
       fetchUserRecipes(token); // Fetch fresh recipes when component mounts
     }
   }, [user]); // Only when user changes
-
+  
   if (loading) return <p>Loading...</p>
   if(!user) return null; //shouldn't happen due to routing guard
 
-  const handleCardClick = (slug) =>{
-    navigate(`/recipe/${slug}`)
-  }
-  const handleScroll = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = 600; // Adjust as needed, width of cards + gap
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
+  // Helper function to construct full image URL
+  const getImageUrl = (relativeUrl) => {
+    if (!relativeUrl) return null;
+    // If it's already a full URL, return as is
+    if (relativeUrl.startsWith('http')) return relativeUrl;
+    // Otherwise, prepend the backend URL
+    return `http://localhost:8000${relativeUrl}`;
+  };
+
+  // Get hero image with fallbacks
+  const getHeroImageStyle = () => {
+    if (userProfile?.hero_image_url) {
+      const fullImageUrl = getImageUrl(userProfile.hero_image_url);
+      return {
+        backgroundImage: `url('${fullImageUrl}')`,
+        backgroundSize: '1200px 400px',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
+    } else {
+      // Fallback to default image
+      return {
+        backgroundImage: `url('pexels-enginakyurt-1435895.jpg')`,
+        backgroundSize: '1200px 400px',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
     }
   };
+
+  const handleCardClick = (slug) =>{
+    console.log('Home - handleCardClick called for slug:', slug);
+    setNavOrigin('/home')
+    console.log('Home - origin set to /home');
+    navigate(`/recipe/${slug}`)
+  }
+
+  // Filter recipes for different carousels
+  const favoriteRecipes = recipes.filter(recipe => recipe.favorite);
+  
+  // Filter recipes by specific tags
+  const easyRecipes = recipes.filter(recipe => 
+    recipe.tags && recipe.tags.some(tag => {
+      const tagName = typeof tag === 'string' ? tag : tag.name;
+      return tagName.toLowerCase().includes('easy') || tagName.toLowerCase().includes('simple');
+    })
+  );
+  
+  const cheapRecipes = recipes.filter(recipe => 
+    recipe.tags && recipe.tags.some(tag => {
+      const tagName = typeof tag === 'string' ? tag : tag.name;
+      return tagName.toLowerCase().includes('cheap') || tagName.toLowerCase().includes('budget') || tagName.toLowerCase().includes('affordable');
+    })
+  );
+  
+  const quickRecipes = recipes.filter(recipe => 
+    recipe.tags && recipe.tags.some(tag => {
+      const tagName = typeof tag === 'string' ? tag : tag.name;
+      return tagName.toLowerCase().includes('quick') || tagName.toLowerCase().includes('fast') || tagName.toLowerCase().includes('30min');
+    })
+  );
+  
+  const healthyRecipes = recipes.filter(recipe => 
+    recipe.tags && recipe.tags.some(tag => {
+      const tagName = typeof tag === 'string' ? tag : tag.name;
+      return tagName.toLowerCase().includes('healthy') || tagName.toLowerCase().includes('low-cal') || tagName.toLowerCase().includes('diet');
+    })
+  );
  
 
   return (
     <div className="home">
-      <div className="add-recipe">
-        <ScrapeWebsiteBtn />
-        <button onClick={()=>navigate('/recipe/new', { recipe: true})} className="insert-recipe-btn">Add own recipe</button>
+      <div className="add-recipe" style={getHeroImageStyle()}>
+        <h1>Cooking with {user.username}</h1>
+        <p>Discover and create amazing recipes</p>
       </div>
       <div className="bottom-container">
-        <h2>Your Recipes</h2>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <ArrowButton direction="left" onClick={() => handleScroll("left")}/>
-          <div className="recipe-list" ref={scrollRef} style={{ flexGrow: 1 }}>
-            {recipes.length === 0 ? (
-              <p>No recipes found.</p>
-            ) : (
-              recipes.map((recipe) => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  onClick={() => handleCardClick(recipe.slug)}
-                />
-              ))
-            )}
-          </div>
-          <ArrowButton direction="right" onClick={() => handleScroll("right")}/>
-        </div>
+        <PillNav />
+        <BottomNav />
+        <RecipeCarousel 
+          recipes={favoriteRecipes}
+          title="Your Favorites"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={easyRecipes}
+          title="Easy Recipes"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={cheapRecipes}
+          title="Budget-Friendly"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={quickRecipes}
+          title="Quick & Easy"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={healthyRecipes}
+          title="Healthy Options"
+          onCardClick={handleCardClick}
+        />
+        <RecipeCarousel 
+          recipes={recipes}
+          title="All Your Recipes"
+          onCardClick={handleCardClick}
+        />
       </div>
-
-
     </div>
-  )
-}
+  );
+};
 
 export default Home
-
-  /* useEffect(()=>{
-    const verifyToken = async() => {
-      const token = localStorage.getItem('token');
-      
-      try {
-        const response = await fetch(`http://localhost:8000/verify-token`,{
-          method: 'POST',
-          headers: {
-          'Authorization': `Bearer ${token}`,
-          },
-        });
-
-        if(!response.ok){
-          throw new Error('Token verification failed');
-        }
-      
-      setLoading(false);
-      }catch (err){
-          localStorage.removeItem('token');
-          navigate('/')
-      }
-    }
-    verifyToken();
-  }, [navigate]) */

@@ -1,0 +1,246 @@
+
+    .tags-topright {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-width: 160px;
+      z-index: 20;
+    }
+
+    /* Mobile responsive styles for tags */
+    @media (max-width: 768px) {
+      .tags-topright {
+        top: 8px;
+        right: 8px;
+        max-width: 140px;
+        gap: 4px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tags-topright {
+        top: 6px;
+        right: 6px;
+        max-width: 120px;
+        gap: 3px;
+      }
+    }
+    .tag-pill {
+      background: #f4f4f4;
+      color: #333;
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      user-select: none;
+      gap: 5px;
+      position: relative;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .tag-remove {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      line-height: 1;
+      color: #666;
+      cursor: pointer;
+      padding: 0;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .tag-text {
+      line-height: 1.2;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    /* When in edit mode, left-align text and keep right padding for × button */
+    .tag-pill.edit-mode {
+      justify-content: flex-start;
+    }
+    
+    .tag-pill.edit-mode .tag-text {
+      padding-right: 20px;
+      justify-content: flex-start;
+      text-align: left;
+    }
+    
+    /* When not in edit mode, remove right padding for perfect centering */
+    .tag-pill:not(.edit-mode) .tag-text {
+      padding-right: 0;
+    }
+    .tag-remove:hover {
+      color: #000;
+    }
+
+    /* Mobile responsive styles for tag pills */
+    @media (max-width: 768px) {
+      .tag-pill {
+        padding: 3px 8px;
+        font-size: 0.8rem;
+        gap: 4px;
+      }
+
+      .tag-text {
+        font-size: 0.8rem;
+      }
+
+      .tag-remove {
+        font-size: 1rem;
+        right: 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tag-pill {
+        padding: 2px 6px;
+        font-size: 0.75rem;
+        gap: 3px;
+      }
+
+      .tag-text {
+        font-size: 0.75rem;
+      }
+
+      .tag-remove {
+        font-size: 0.9rem;
+        right: 4px;
+      }
+    }
+
+    .icon-button.add-tags-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1.5px solid #333;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-button.add-tags-btn:hover {
+      background: #eee;
+    }
+
+    .tags-popup {
+        background: white;
+        border-radius: 12px; /* More rounded corners */
+        padding: 16px 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Softer, bigger shadow */
+        width: 260px;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        box-sizing: border-box;
+        overflow: visible;   /* Prevent clipping of children */
+      }
+
+    .default-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .default-tag {
+      padding: 4px 8px;
+      background: #f4f4f4;
+      border: 1.5px solid #ccc;
+      border-radius: 16px;
+      font-family: 'Inter';
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .default-tag.selected {
+      background: #333;
+      color: white;
+      border-color: #333;
+    }
+
+    .custom-tag-input {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+      }
+      
+      .custom-tag-input input {
+        flex-grow: 1 !important;
+        min-width: 0 !important;
+        padding: 8px 12px !important;
+        font-size: 1rem !important;
+        border-radius: 8px !important;
+        border: 1.5px solid #ccc !important;
+        font-family: 'Inter', sans-serif !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        box-sizing: border-box !important;
+        background-color: white !important;
+        color: #333 !important;
+      }
+      
+      .custom-tag-input input:focus {
+        outline: none !important;
+        border-color: #333 !important;
+      }
+      
+      .custom-tag-input button {
+        padding: 8px 14px;
+        border: none;
+        background: #333;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+      }
+      
+      .custom-tag-input button:disabled {
+        background: #aaa;
+        cursor: not-allowed;
+      }
+      
+      .custom-tag-input button:hover:not(:disabled) {
+        background: #555;
+      }
+      
+
+    .popup-actions {
+      text-align: right;
+    }
+    .popup-actions button {
+      padding: 6px 12px;
+      border: none;
+      background: #333;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .popup-actions button:disabled {
+      background: #aaa;
+      cursor: default;
+    }

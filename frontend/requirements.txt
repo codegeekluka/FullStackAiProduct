@@ -1,2 +1,5 @@
 axios
 jwt-decode
+react-icons
+prop-types
+react-image-crop

@@ -1,0 +1,214 @@
+/* ==========================================================================
+   REVIEW STEP - COMPONENTS LAYER
+   ========================================================================== */
+
+/**
+ * Review Step Component
+ * Handles final review and option selection before completing onboarding
+ * 
+ * @example
+ * <div class="review-step">
+ *   <div class="radio-group">
+ *     <div class="radio-item radio-item--selected">
+ *       <input class="radio-item__input" />
+ *       <span class="radio-item__label">...</span>
+ *     </div>
+ *   </div>
+ *   <div class="custom-input">
+ *     <input class="form-group__input" />
+ *   </div>
+ *   <div class="thank-you">
+ *     <h3 class="thank-you__title">...</h3>
+ *     <p class="thank-you__message">...</p>
+ *   </div>
+ * </div>
+ */
+
+/* ==========================================================================
+   RADIO GROUP COMPONENTS
+   ========================================================================== */
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.radio-item:hover {
+  background-color: rgba(147, 51, 234, 0.05);
+  border-color: rgba(147, 51, 234, 0.3);
+}
+
+.radio-item--selected {
+  background-color: rgba(147, 51, 234, 0.1);
+  border-color: #9333ea;
+  box-shadow: 0 0.25rem 0.75rem rgba(147, 51, 234, 0.15);
+}
+
+.radio-item__input {
+  margin-right: 0.75rem;
+  accent-color: #9333ea;
+}
+
+.radio-item__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   CUSTOM INPUT COMPONENTS
+   ========================================================================== */
+
+.custom-input {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   THANK YOU COMPONENTS
+   ========================================================================== */
+
+.thank-you {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: rgba(147, 51, 234, 0.05);
+  border-radius: 1rem;
+  border: 1px solid rgba(147, 51, 234, 0.1);
+}
+
+.thank-you__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #9333ea;
+  margin-bottom: 0.5rem;
+}
+
+.thank-you__message {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.7);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* Tablet and smaller desktop */
+@media (min-width: 48rem) { /* 768px */
+  .radio-item {
+    padding: 0.625rem;
+    border-radius: 0.625rem;
+  }
+  
+  .radio-item__label {
+    font-size: 0.8rem;
+  }
+  
+  .custom-input {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+  }
+  
+  .thank-you {
+    margin-top: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .thank-you__title {
+    font-size: 1.1rem;
+  }
+  
+  .thank-you__message {
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 30rem) { /* 480px */
+  .radio-item {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+  
+  .radio-item__label {
+    font-size: 0.75rem;
+  }
+  
+  .custom-input {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+  
+  .thank-you {
+    margin-top: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .thank-you__title {
+    font-size: 1rem;
+  }
+  
+  .thank-you__message {
+    font-size: 0.75rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 22.5rem) { /* 360px */
+  .radio-item {
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+  }
+  
+  .radio-item__label {
+    font-size: 0.7rem;
+  }
+  
+  .custom-input {
+    margin-top: 0.375rem;
+    padding-top: 0.375rem;
+  }
+  
+  .thank-you {
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+  }
+  
+  .thank-you__title {
+    font-size: 0.9rem;
+  }
+  
+  .thank-you__message {
+    font-size: 0.7rem;
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .radio-item {
+    transition: none;
+  }
+}
+
+

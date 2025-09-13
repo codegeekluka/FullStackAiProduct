@@ -1,0 +1,101 @@
+/* ==========================================================================
+   ONBOARDING BASE - FOUNDATION LAYER
+   ========================================================================== */
+
+/**
+ * CSS Reset for Form Elements
+ * Ensures consistent styling across browsers
+ */
+
+/* Reset form elements to remove browser defaults */
+input,
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+input[type="password"] {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-size: inherit;
+  line-height: inherit;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* ==========================================================================
+   FORM COMPONENTS
+   ========================================================================== */
+
+/* Form input styling with high specificity */
+.form-group .form-group__input,
+.form-group input.form-group__input,
+.form-group .form-group__input[type="text"],
+.form-group .form-group__input[type="email"],
+.form-group .form-group__input[type="number"],
+.form-group .form-group__input[type="tel"],
+.form-group .form-group__input[type="password"] {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.form-group {
+  margin-bottom: 0.5rem; /* Significantly reduced from 1rem */
+}
+
+.form-group__label {
+  /* Layout */
+  display: block;
+  
+  /* Typography */
+  font-size: 0.90rem; /* Reduced from 0.875rem */
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+  
+  /* Spacing */
+  margin-bottom: 0.25rem; /* Significantly reduced from 0.5rem */
+}
+
+.form-group .form-group__input {
+  /* Layout */
+  width: 100%;
+  margin: 0; /* Reset browser defaults */
+  
+  /* Typography */
+  font-size: 0.75rem; /* Reduced from 0.875rem */
+  color: rgba(0, 0, 0, 0.9);
+  
+  /* Visual */
+  padding: 0.5rem 0.75rem; /* Significantly reduced from 0.75rem 1rem */
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.625rem; /* Reduced from 0.875rem */
+  backdrop-filter: blur(10px);
+  
+  /* Transitions */
+  transition: all 0.3s ease;
+  
+  /* Focus states */
+  &:focus {
+    outline: none;
+    border-color: #9333ea;
+    box-shadow: 0 0 0 0.1875rem rgba(147, 51, 234, 0.1);
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Placeholder styling */
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+  }
+}

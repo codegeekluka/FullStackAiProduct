@@ -23,5 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+# Python
 __pycache__/
 *.pyc
+.mypy_cache/
+.pytest_cache/
+.scannerwork/
+
+# Load test results (generated automatically)
+load_test_results/*.csv
+load_test_results/load_test_report.html

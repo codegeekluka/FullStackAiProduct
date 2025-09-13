@@ -1,0 +1,188 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin:0;
+}
+
+.nav {
+    display:flex; 
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1.5rem;
+    background: var(--color-background-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-border);
+    
+    min-height: 64px;
+    box-shadow: var(--shadow-sm);
+    /* Ensure dropdowns can overflow */
+    overflow: visible !important;
+    position: relative;
+    z-index: 9999;
+}
+
+.site-title {
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--color-text-primary);
+    text-decoration: none;
+}
+
+.nav ul {
+    padding:0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap:1rem;
+    align-items: center;
+    /* Ensure dropdowns can overflow */
+    overflow: visible !important;
+    position: relative;
+    height: 100%;
+}
+
+.nav a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    height:100%;
+    display:flex;
+    align-items: center;
+    padding: 0.5rem;
+    transition: var(--transition-smooth);
+}
+
+.nav a:hover {
+    color: var(--color-primary);
+}
+
+.nav li:hover {
+    background-color: transparent;
+    border-radius: var(--border-radius-sm);
+}
+
+.nav li.active {
+    background-color: transparent;
+    color: var(--color-text-primary);
+}
+
+/* User dropdown parent */
+.dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-bottom: 4px;
+  z-index: 9999;
+  /* Ensure proper positioning context */
+  height: 100%;
+  /* Ensure dropdown appears below navbar */
+  align-self: stretch;
+  /* Prevent dropdown from affecting flex layout */
+  overflow: visible;
+}
+
+/* Add invisible bridge to prevent gap */
+.dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: transparent;
+  z-index: 999;
+}
+
+/* The button showing username or 'User' */
+.user-btn {
+  cursor: pointer;
+  padding: 0.75rem;
+  background: transparent;
+  border: none;
+  font: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  height: 100%;
+  min-height: 64px;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-smooth);
+  /* Ensure proper positioning */
+  position: relative;
+}
+
+.user-btn:hover {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+/* The dropdown menu itself */
+.dropdown-menu {
+  position: fixed;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-md);
+  min-width: 140px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem 0;
+  margin: 0;
+  list-style: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* NavBar specific dropdown styling - more compact */
+.nav .dropdown-menu {
+  min-width: 100px;
+  padding: 0.1rem 0;
+}
+
+/* Dropdown links and buttons */
+.dropdown-menu li a,
+.dropdown-menu li button {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  background: none;
+  border: none;
+  width: 100%;
+  text-decoration: none;
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: block;
+  transition: var(--transition-fast);
+}
+
+/* Hover effect */
+.dropdown-menu li a:hover,
+.dropdown-menu li button:hover {
+  background: var(--color-surface-secondary);
+  color: var(--color-primary);
+}
+
+/* NavBar specific dropdown item styling - more compact */
+.nav .dropdown-menu li a,
+.nav .dropdown-menu li button {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Optional: style logout button separately if desired */
+.logout-btn {
+  text-align: center;
+}

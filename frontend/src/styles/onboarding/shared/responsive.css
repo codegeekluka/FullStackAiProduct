@@ -1,0 +1,290 @@
+/* ==========================================================================
+   ONBOARDING RESPONSIVE - UTILITIES LAYER
+   ========================================================================== */
+
+/**
+ * Responsive Breakpoints
+ * Mobile-first responsive design for onboarding components
+ */
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* Tablet and smaller desktop */
+@media (min-width: 48rem) { /* 768px */
+  .modal {
+    padding: 0.75rem;
+  }
+  
+  .modal__content {
+    margin: 0.75rem;
+    max-height: calc(100vh - 1.5rem);
+    border-radius: 1.25rem; /* 20px */
+  }
+  
+  .modal__header {
+    padding: 1.25rem 1.5rem 0.75rem;
+  }
+  
+  .modal__title {
+    font-size: 1.25rem;
+    margin-bottom: 0.375rem;
+  }
+  
+  .modal__subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .modal__body {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .modal__footer {
+    flex-direction: row;
+    gap: 0.75rem;
+    min-height: auto;
+    padding: 1rem 1.5rem 1.5rem;
+  }
+  
+  .modal__footer--two-buttons {
+    padding: 0.5rem 1.5rem 1rem;
+    gap: 0.75rem;
+  }
+  
+  .btn {
+    flex: 0 0 auto;
+    padding: 0.875rem 1.25rem; /* 14px 20px */
+    font-size: 0.95rem;
+    border-radius: 0.875rem; /* 14px */
+  }
+  
+  .form-group__label {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem; /* 4px */
+  }
+  
+  /* Higher specificity to override base.css */
+  .form-group .form-group__input,
+  .form-group input.form-group__input,
+  .form-group .form-group__input[type="text"],
+  .form-group .form-group__input[type="email"],
+  .form-group .form-group__input[type="number"],
+  .form-group .form-group__input[type="tel"],
+  .form-group .form-group__input[type="password"] {
+    padding: 0.5rem 0.75rem; /* 8px 12px */
+    font-size: 0.8rem;
+    border-radius: 0.75rem; /* 12px */
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 30rem) { /* 480px */
+  .modal {
+    padding: 0.5rem;
+  }
+  
+  .modal__content {
+    margin: 0.5rem;
+    max-height: calc(100vh - 1rem);
+    border-radius: 1rem; /* 16px */
+    min-width: 17.5rem; /* 280px */
+  }
+  
+  .modal__header {
+    padding: 0.5rem 1rem 0.25rem; /* Further reduced padding */
+  }
+  
+  .modal__title {
+    font-size: 0.9375rem; /* Further reduced from 1rem */
+    margin-bottom: 0.125rem; /* Further reduced from 0.1875rem */
+    line-height: 1.3;
+  }
+  
+  .modal__subtitle {
+    font-size: 0.625rem; /* Further reduced from 0.6875rem */
+    line-height: 1.4;
+  }
+  
+  .modal__body {
+    padding: 0.25rem 1rem; /* Further reduced top/bottom padding */
+  }
+  
+  .modal__footer {
+    flex-direction: row;
+    gap: 0.5rem;
+    min-height: auto;
+    padding: 0.375rem 1rem 0.6rem; /* Further reduced padding */
+  }
+  
+  .modal__footer--two-buttons {
+    padding: 0.125rem 1rem 0.375rem; /* Further reduced padding */
+    gap: 0.5rem;
+  }
+  
+  .btn {
+    flex: 0 0 auto;
+    padding: 0.5rem 0.75rem; /* Further reduced from 0.625rem 0.875rem */
+    font-size: 0.8125rem; /* Further reduced from 0.875rem */
+    border-radius: 0.75rem; /* 12px */
+    min-height: 2.25rem; /* Further reduced from 2.5rem */
+  }
+  
+  .form-group__label {
+    font-size: 0.825rem; /* Further reduced from 0.6875rem */
+    margin-bottom: 0.5rem; /* Removed margin */
+    line-height: 1.3;
+    margin-top: 0.5rem;
+  }
+  
+  /* Higher specificity to override base.css */
+  .form-group .form-group__input,
+  .form-group input.form-group__input,
+  .form-group .form-group__input[type="text"],
+  .form-group .form-group__input[type="email"],
+  .form-group .form-group__input[type="number"],
+  .form-group .form-group__input[type="tel"],
+  .form-group .form-group__input[type="password"] {
+    padding: 0.25rem 0.375rem; /* Further reduced from 0.3125rem 0.5rem */
+    font-size: 0.8rem; /* Further reduced from 0.75rem */
+    border-radius: 0.5rem; /* Further reduced from 0.625rem */
+    min-height: 2rem; /* Further reduced from 2.25rem */
+    margin: 0; /* Reset browser defaults */
+  }
+  
+  .form-group {
+    margin-bottom: 0.5rem; /* Further reduced from 0.75rem */
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 22.5rem) { /* 360px */
+  .modal {
+    padding: 0.25rem;
+  }
+  
+  .modal__content {
+    margin: 0.25rem;
+    max-height: calc(100vh - 0.5rem);
+    border-radius: 0.75rem; /* 12px */
+    min-width: 16.25rem; /* 260px */
+  }
+  
+  .modal__header {
+    padding: 0.5rem 0.75rem 0.25rem; /* Reduced padding */
+  }
+  
+  .modal__title {
+    font-size: 0.9375rem; /* Reduced from 1rem */
+    margin-bottom: 0.125rem; /* Reduced from 0.2rem */
+  }
+  
+  .modal__subtitle {
+    font-size: 0.625rem; /* Reduced from 0.7rem */
+  }
+  
+  .modal__body {
+    padding: 0.25rem 0.75rem; /* Reduced top/bottom padding */
+  }
+  
+  .modal__footer {
+    padding: 0.375rem 0.75rem 0.5rem; /* Reduced padding */
+    gap: 0.375rem;
+  }
+  
+  .modal__footer--two-buttons {
+    padding: 0.125rem 0.75rem 0.375rem; /* Reduced padding */
+    gap: 0.375rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 0.625rem; /* Reduced from 0.625rem 0.75rem */
+    font-size: 0.8125rem; /* Reduced from 0.85rem */
+    border-radius: 0.625rem; /* 10px */
+    min-height: 2.25rem; /* Reduced from 2.5rem */
+  }
+  
+  .form-group__label {
+    font-size: 0.625rem; /* Reduced from 0.65rem */
+    margin-bottom: 0; /* Removed margin */
+  }
+  
+  /* Higher specificity to override base.css */
+  .form-group .form-group__input,
+  .form-group input.form-group__input,
+  .form-group .form-group__input[type="text"],
+  .form-group .form-group__input[type="email"],
+  .form-group .form-group__input[type="number"],
+  .form-group .form-group__input[type="tel"],
+  .form-group .form-group__input[type="password"] {
+    padding: 0.25rem 0.375rem; /* Reduced from 0.3125rem 0.5rem */
+    font-size: 0.6875rem; /* Reduced from 0.7rem */
+    border-radius: 0.5rem; /* 8px */
+    min-height: 2rem; /* Reduced from 2.25rem */
+    margin: 0; /* Reset browser defaults */
+  }
+  
+  .form-group {
+    margin-bottom: 0.5rem; /* Reduced from 0.75rem */
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 48rem) and (orientation: landscape) {
+  .modal__content {
+    max-height: calc(100vh - 2rem);
+    margin: 1rem;
+  }
+  
+  .modal__header {
+    padding: 0.75rem 1.5rem 0.5rem;
+  }
+  
+  .modal__body {
+    padding: 0.5rem 1.5rem;
+    max-height: 50vh;
+  }
+  
+  .modal__footer {
+    padding: 0.5rem 1.5rem 1rem;
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .modal__content {
+    border-width: 0.5px;
+  }
+  
+  /* Higher specificity to override base.css */
+  .form-group .form-group__input,
+  .form-group input.form-group__input,
+  .form-group .form-group__input[type="text"],
+  .form-group .form-group__input[type="email"],
+  .form-group .form-group__input[type="number"],
+  .form-group .form-group__input[type="tel"],
+  .form-group .form-group__input[type="password"] {
+    border-width: 0.5px;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .modal__content {
+    animation: none;
+  }
+  
+  .btn::before {
+    display: none;
+  }
+  
+  .btn:hover,
+  .btn--primary:hover,
+  .btn--secondary:hover {
+    transform: none;
+  }
+}

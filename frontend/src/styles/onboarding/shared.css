@@ -1,0 +1,21 @@
+/* ==========================================================================
+   ONBOARDING SHARED - IMPORT FILE
+   ========================================================================== */
+
+/**
+ * This file imports all shared onboarding styles
+ * 
+ * Structure:
+ * - shared/base.css: CSS reset and form components
+ * - shared/modal.css: Modal overlay and content styles
+ * - shared/buttons.css: Button component styles
+ * - shared/responsive.css: Responsive breakpoints and accessibility
+ */
+
+/* Import order matters - base styles first, then components, then utilities */
+@import './shared/base.css';
+@import './shared/modal.css';
+@import './shared/buttons.css';
+@import './shared/responsive.css';
+
+

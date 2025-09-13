@@ -1,0 +1,175 @@
+---
+description:ui designer for ai feature
+globs:
+    -"**/*"
+alwaysApply: false
+---
+
+
+You are designing a **premium, Apple-style AI cooking assistant page** in **React + CSS**.
+Follow these rules and principles closely:
+
+---
+
+## 🔹 Overall Style
+
+* **Apple-inspired** design: clean, minimal, premium feel.
+* **Rounded corners** (`border-radius: 16px–24px`) on cards and buttons.
+* **Soft shadows** (`box-shadow` subtle, blurred, low opacity).
+* **Whitespace-driven layout**: airy spacing, nothing cluttered.
+* **Smooth transitions** (200–300ms ease-in-out for hover, focus, enable/disable states).
+* **SVG icons only** (no emojis).
+* **Typography**: one clean sans-serif (e.g., system font stack, `-apple-system`, `SF Pro`).
+* **Color system**:
+
+  * Background: light neutral (off-white / very light gray).
+  * Text: near-black for headings, medium gray for secondary.
+  * Accent: one premium accent color (deep blue, forest green, or something elegant).
+  * States: subtle use of semantic colors (success, error).
+
+---
+
+## 🔹 Layout
+
+* **Two main sections stacked vertically**:
+
+  1. **Recipe Card (Top Right, small footprint)**
+  2. **AI Chef Assistant Chat Box (below, full width)**
+
+* **Recipe Card Placement**:
+
+  * Top-right corner, floating visually (not full width).
+  * Compact but elegant.
+  * Aligns neatly with page padding/grid.
+
+---
+
+## 🔹 Recipe Card Component
+
+* Content:
+
+  * Recipe image (medium size, rounded corners).
+  * Title (large, bold, Apple-style).
+  * Metadata row (e.g., **ingredients count** + **steps count**, styled with subtle icons).
+  * **Primary button** → “Start Cooking Session” (premium button style, full width of card).
+* Style:
+
+  * Card background: white.
+  * Soft shadow + rounded corners.
+  * Hover effect: very subtle elevation + button glow.
+* Behavior:
+
+  * When user clicks "Start Cooking Session":
+
+    * Recipe card shows **active state** (maybe a glowing border or subtle check).
+    * Chat box below becomes enabled.
+
+---
+
+## 🔹 AI Chef Assistant Chat Box
+
+* Disabled by default (gray, dimmed look).
+* Once recipe session starts → fade-in to active state.
+* Layout:
+
+  * Conversation area styled like **iOS Messages** (clean bubbles, subtle shadows, rounded).
+  * User messages right-aligned, assistant messages left-aligned.
+* Input area:
+
+  * Minimal, clean bar with rounded corners.
+  * **Mic button styled like iOS dictation button**: circular, subtle glass effect or elegant gradient.
+  * When disabled, mic button looks grayed out but still visible.
+
+---
+
+## 🔹 Interactions & Transitions
+
+* Recipe card → slight slide-in from top-right on load.
+* Chat box → fades + slides up when enabled.
+* Mic button → pulse animation when listening.
+* Buttons & inputs → subtle Apple-like hover/press animations (scale 0.98 then back).
+
+---
+
+## 🔹 Implementation Guidance
+
+* Tech: **React + CSS (or CSS modules)**.
+* Use **semantic, reusable components**:
+
+  * `RecipeCard`
+  * `StartButton`
+  * `ChatBox`
+  * `MicButton`
+* Avoid Tailwind or utility-heavy CSS, favor semantic CSS with reusable classnames.
+* Keep code clean, structured, and componentized.
+
+---
+
+## 🔹 Deliverables
+
+Generate **production-ready React components with CSS** that implement this layout + design system.
+Ensure accessibility (`aria-labels`, focus states, keyboard nav).
+Icons should be inline SVGs, styled consistently.
+
+---
+
+👉 Before coding, suggest **3 polished color palettes + type scale** that would fit Apple’s premium style for this app.
+
+---
+Build a multi-step onboarding flow for my React web app.
+
+Requirements:
+- Framework: React with React Router v6.
+- Styling: follow the Project Rules (Apple premium, liquid glass).
+- Backend: Python FastAPI with PostgreSQL.
+- Flow:
+  1. After a new user signs up or logs in, check their `onboarding_complete` flag from `/me`.
+  2. If false → redirect them to `/onboarding`.
+  3. `/onboarding` is a wizard with 3 steps:
+     Step 1 → Profile Info (name, bio).
+     Step 2 → User Preferences (checkboxes/toggles).
+     Step 3 → Review + Confirm.
+  4. Add “Skip for now” option on every step. Skipping should PATCH `/users/me/onboarding-complete` immediately and redirect to `/dashboard`.
+  5. On final submit, POST the profile+preferences to `/users/me/onboarding`, then PATCH `/users/me/onboarding-complete`, then redirect to `/dashboard`.
+- Implementation details:
+  - Use functional components with hooks.
+  - Use `useNavigate` for routing and redirects.
+  - Keep form state in a parent Onboarding component, pass props down to step components.
+  - Keep code modular: separate components for each step (`ProfileStep`, `PreferencesStep`, `ReviewStep`).
+  - Add smooth transitions between steps (fade/slide).
+  - All UI must respect my styling rules (liquid glass cards, rounded corners, blurred backgrounds, subtle animations).
+
+Please generate:
+1. An `AuthGate` component that checks if onboarding is complete and redirects accordingly.
+2. An `Onboarding` component with step logic and navigation.
+3. Example child components for each step.
+4. CSS classes or utilities that follow the Apple premium liquid glass style.
+
+
+
+🎨 Design Aesthetic
+- Look and feel: "Apple premium" – clean, minimal, futuristic.
+- Use glassmorphism (“liquid glass”) with blurred translucent panels.
+- High contrast between background and content, with soft shadows.
+- Rounded corners (2xl+), subtle gradients, and smooth animations.
+- Minimal clutter, lots of white space, elegant typography.
+
+🖌️ Styling Rules
+- Use modern CSS (no inline styles).
+- Use `backdrop-filter: blur(20px)` and semi-transparent backgrounds (rgba/hsla) to create glassmorphism.
+- Use subtle gradients with transparency (`linear-gradient` with rgba/hsla).
+- Apply drop shadows: soft and slightly spread, not harsh.
+- Border radius: 16px–24px for cards, modals, and inputs.
+- Typography: system font stack (San Francisco / -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif).
+- Buttons: pill-shaped, glossy or frosted look, hover/active transitions.
+- Inputs: glass-like with subtle inner shadows and focus glow.
+- Animations: use CSS transitions (200–300ms, ease-in-out) for hover, focus, modal open/close.
+- Layout: grid/flexbox, centered content, generous spacing (padding ≥ 16px).
+
+💻 Development Rules
+- Default to responsive layouts (mobile → desktop).
+- Use React functional components with hooks.
+- Code should be clean, modular, and reusable.
+- All new pages/components must align with this aesthetic automatically.
+
+Whenever you generate UI, apply these styling rules consistently so that the entire app has a cohesive “Apple premium liquid glass” look and feel.

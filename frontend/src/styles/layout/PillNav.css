@@ -1,0 +1,86 @@
+.pill-nav-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+.pill-nav {
+  display: flex;
+  background: var(--color-background-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 50px;
+  padding: 8px;
+  border: 1px solid var(--color-border-glass);
+  box-shadow: var(--shadow-md);
+  gap: 4px;
+  position: relative;
+}
+
+.pill-nav * {
+  z-index: 2;
+}
+
+.pill-nav-item {
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-width: 80px;
+  text-align: center;
+  z-index: 2;
+}
+
+.pill-nav-item:hover {
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.pill-nav-item.active {
+  color: var(--color-text-inverse);
+}
+
+.glider {
+  position: absolute;
+  display: flex;
+  background: var(--gradient-primary);
+  z-index: 1;
+  border-radius: 25px;
+  transition: transform 0.25s ease-out, width 0.25s ease-out, height 0.25s ease-out;
+  box-shadow: var(--shadow-primary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .pill-nav-item {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+  
+  .pill-nav {
+    padding: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pill-nav-item {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+/* Hide PillNav on mobile screens */
+@media (max-width: 640px) {
+  .pill-nav-container {
+    display: none;
+  }
+}
