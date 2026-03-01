@@ -35,9 +35,13 @@ _origins = [
     "http://127.0.0.1:5173",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://recipe-app-fawn-six.vercel.app",  # Production frontend (Vercel)
 ]
-if os.getenv("FRONTEND_URL"):
-    _origins.append(os.getenv("FRONTEND_URL").rstrip("/"))
+_frontend_url = os.getenv("FRONTEND_URL")
+if _frontend_url:
+    _frontend_url = _frontend_url.rstrip("/")
+    if _frontend_url not in _origins:
+        _origins.append(_frontend_url)
 app.add_middleware(
     CORSMiddleware,
     # allow all types requsts if its from our frontend
