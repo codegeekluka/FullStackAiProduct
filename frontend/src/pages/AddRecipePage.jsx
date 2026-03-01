@@ -7,6 +7,7 @@ import ScrapeWebsiteBtn from '../components/utils/ScrapeWebsiteBtn.jsx';
 import Fridge from '../components/fridge/Fridge.jsx';
 import VideoConversionPreview from '../components/recipes/VideoConversionPreview.jsx';
 import { AuthContext } from '../contexts/AuthContext.jsx';
+import { API_BASE_URL } from '../config/api';
 
 const AddRecipePage = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const AddRecipePage = () => {
     // If it's already a full URL, return as is
     if (relativeUrl.startsWith('http')) return relativeUrl;
     // Otherwise, prepend the backend URL
-    return `http://localhost:8000${relativeUrl}`;
+    return `${API_BASE_URL}${relativeUrl}`;
   };
 
   // Get hero image with fallbacks

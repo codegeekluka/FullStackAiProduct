@@ -1,7 +1,8 @@
 // context/AuthContext.jsx
 import { createContext, useState, useEffect, useCallback } from 'react';
 import { jwtDecode} from 'jwt-decode';
-import axios from 'axios'
+import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 export const AuthContext = createContext();
 
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUserRecipes = useCallback(async (token) => {
     try {
   
-        const response = await axios.get('http://localhost:8000/user/recipes?full_details=true', {
+        const response = await axios.get(`${API_BASE_URL}/user/recipes?full_details=true`, {
           headers: {Authorization: `Bearer ${token}`}
         });
         setRecipes(response.data.recipes)
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserProfile = useCallback(async (token) => {
     try {
-      const response = await axios.get('http://localhost:8000/users/me', {
+      const response = await axios.get(`${API_BASE_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUserProfile(response.data);

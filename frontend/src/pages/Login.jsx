@@ -3,6 +3,7 @@ import '../styles/auth/Login.css'
 import { useState, useEffect, useContext} from "react"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../contexts/AuthContext"
+import { API_BASE_URL } from "../config/api"
 
 const Login = () => {
     const [username, setUsername] = useState('')
@@ -37,7 +38,7 @@ const Login = () => {
             formData.append('password',password);
 
             //creating a form-like object with username and password because OAuth2PasswordRequestForm expects application/x-www-form-urlencoded not json
-            const response = await axios.post('http://localhost:8000/login', formData, {
+            const response = await axios.post(`${API_BASE_URL}/login`, formData, {
                 headers: {
                     'Content-Type' : 'application/x-www-form-urlencoded',
                 },

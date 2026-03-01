@@ -1,10 +1,11 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config/api";
 
 export async function removeActiveRecipe(token) {
   try {
     // First get the current active recipe
     const activeRecipeResponse = await axios.get(
-      "http://localhost:8000/user/active-recipe",
+      `${API_BASE_URL}/user/active-recipe`,
       {
         headers: { Authorization: `Bearer ${token}` }
       }
@@ -18,7 +19,7 @@ export async function removeActiveRecipe(token) {
     
     // Deactivate the current active recipe
     const res = await axios.put(
-      `http://localhost:8000/recipe/${activeRecipe.slug}/active`,
+      `${API_BASE_URL}/recipe/${activeRecipe.slug}/active`,
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     );

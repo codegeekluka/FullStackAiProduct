@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config/api';
 
 const AuthGate = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
@@ -31,7 +32,7 @@ const AuthGate = ({ children }) => {
 
   const checkOnboardingStatus = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/users/me', {
+      const response = await axios.get(`${API_BASE_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       

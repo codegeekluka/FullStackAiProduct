@@ -1,10 +1,11 @@
 // src/api/toggleActive.js
 import axios from "axios";
+import { API_BASE_URL } from "../config/api";
 
 export async function toggleActive(slug, token) {
   try {
     const res = await axios.put(
-      `http://localhost:8000/recipe/${slug}/active`,
+      `${API_BASE_URL}/recipe/${slug}/active`,
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     );

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/onboarding/shared.css';
 import '../../styles/onboarding/ProfileStep.css';
 
@@ -26,7 +27,7 @@ const ProfileStep = ({ formData, updateFormData, onNext, onSkip, loading }) => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:8000/users/me/upload-profile-picture', formData, {
+      const response = await axios.post(`${API_BASE_URL}/users/me/upload-profile-picture`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -51,7 +52,7 @@ const ProfileStep = ({ formData, updateFormData, onNext, onSkip, loading }) => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:8000/users/me/upload-hero-image', formData, {
+      const response = await axios.post(`${API_BASE_URL}/users/me/upload-hero-image`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const ThemeContext = createContext();
 
@@ -53,7 +54,7 @@ export const ThemeProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        await axios.put('http://localhost:8000/users/me/profile', 
+        await axios.put(`${API_BASE_URL}/users/me/profile`, 
           { theme_preference: newTheme },
           { headers: { Authorization: `Bearer ${token}` } }
         );

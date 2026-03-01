@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import ImageCropper from '../ui/ImageCropper';
 import { AuthContext } from '../../contexts/AuthContext';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/onboarding/ProfileStep.css';
 
 const ProfileSection = ({ formData, updateFormData }) => {
@@ -25,7 +26,7 @@ const ProfileSection = ({ formData, updateFormData }) => {
     // If it's already a full URL, return as is
     if (relativeUrl.startsWith('http')) return relativeUrl;
     // Otherwise, prepend the backend URL
-    return `http://localhost:8000${relativeUrl}`;
+    return `${API_BASE_URL}${relativeUrl}`;
   };
 
   const handleFileSelect = (event, type) => {
@@ -86,7 +87,7 @@ const ProfileSection = ({ formData, updateFormData }) => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:8000/users/me/upload-profile-picture', formData, {
+      const response = await axios.post(`${API_BASE_URL}/users/me/upload-profile-picture`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -113,7 +114,7 @@ const ProfileSection = ({ formData, updateFormData }) => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:8000/users/me/upload-hero-image', formData, {
+      const response = await axios.post(`${API_BASE_URL}/users/me/upload-hero-image`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

@@ -1,7 +1,8 @@
 import { useState, useContext } from 'react'
 import '../../styles/ui/ScrapeButton.css'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../contexts/AuthContext'
+import { AuthContext } from '../../contexts/AuthContext';
+import { API_BASE_URL } from '../../config/api';
 
 const ScrapeWebsiteBtn = () => {
     const [showModal, setShowModal] = useState(false);
@@ -47,7 +48,7 @@ const ScrapeWebsiteBtn = () => {
             const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout
             
             console.log("ScrapeWebsiteBtn - making request to backend");
-            const response = await fetch('http://localhost:8000/RecipePage', {
+            const response = await fetch(`${API_BASE_URL}/RecipePage`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

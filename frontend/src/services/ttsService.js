@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 class TTSService {
   constructor() {
@@ -55,7 +56,7 @@ class TTSService {
       }
 
       // Construct full URL if it's a relative path
-      const fullUrl = audioUrl.startsWith('http') ? audioUrl : `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}${audioUrl}`;
+      const fullUrl = audioUrl.startsWith('http') ? audioUrl : `${API_BASE_URL}${audioUrl}`;
       console.log('TTS: Playing audio from URL:', fullUrl);
 
       // Create audio element for streaming

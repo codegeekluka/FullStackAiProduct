@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config/api";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = API_BASE_URL;
 
 /**
  * Get user's note for a recipe

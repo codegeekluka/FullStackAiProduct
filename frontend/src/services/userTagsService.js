@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config/api";
 
 export async function getUserTags(token) {
-  const res = await axios.get("http://localhost:8000/user/tags", {
+  const res = await axios.get(`${API_BASE_URL}/user/tags`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -12,7 +13,7 @@ export async function getUserTags(token) {
 
 export async function addUserTag(tagName, token) {
   const res = await axios.post(
-    "http://localhost:8000/user/tags",
+    `${API_BASE_URL}/user/tags`,
     { tag_name: tagName },
     {
       headers: {
@@ -26,7 +27,7 @@ export async function addUserTag(tagName, token) {
 
 export async function removeUserTag(tagName, token) {
   const res = await axios.delete(
-    `http://localhost:8000/user/tags/${encodeURIComponent(tagName)}`,
+    `${API_BASE_URL}/user/tags/${encodeURIComponent(tagName)}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

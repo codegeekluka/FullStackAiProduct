@@ -6,6 +6,7 @@ import { AuthContext } from '../contexts/AuthContext.jsx';
 import RecipeCarousel from '../components/pages/RecipeCarousel.jsx';
 import PillNav from '../components/layout/PillNav.jsx';
 import BottomNav from '../components/layout/BottomNav.jsx';
+import { API_BASE_URL } from '../config/api';
 
 
 const Home = () => {
@@ -28,7 +29,7 @@ const Home = () => {
     // If it's already a full URL, return as is
     if (relativeUrl.startsWith('http')) return relativeUrl;
     // Otherwise, prepend the backend URL
-    return `http://localhost:8000${relativeUrl}`;
+    return `${API_BASE_URL}${relativeUrl}`;
   };
 
   // Get hero image with fallbacks

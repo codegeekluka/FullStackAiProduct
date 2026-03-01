@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import photoPlaceholder from '../assets/photo.png';
 import subscriptionService from '../services/subscriptionService';
 import UpgradeModal from '../components/ui/UpgradeModal';
+import { API_BASE_URL } from '../config/api';
 import '../styles/settings/Settings.css';
 import '../styles/onboarding/shared.css';
 
@@ -44,7 +45,7 @@ const Settings = () => {
 
   const fetchUserProfile = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8000/users/me', {
+      const response = await axios.get(`${API_BASE_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUserProfile(response.data);
@@ -55,7 +56,7 @@ const Settings = () => {
 
   const fetchPreferenceOptions = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8000/users/me/preferences/options', {
+      const response = await axios.get(`${API_BASE_URL}/users/me/preferences/options`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPreferenceOptions(response.data);
@@ -185,7 +186,7 @@ const Settings = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:8000/users/me/upload-profile-picture', formData, {
+      const response = await axios.post(`${API_BASE_URL}/users/me/upload-profile-picture`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -210,7 +211,7 @@ const Settings = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:8000/users/me/upload-hero-image', formData, {
+      const response = await axios.post(`${API_BASE_URL}/users/me/upload-hero-image`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -228,7 +229,7 @@ const Settings = () => {
 
   const deleteProfilePicture = async () => {
     try {
-      await axios.delete('http://localhost:8000/users/me/delete-profile-picture', {
+      await axios.delete(`${API_BASE_URL}/users/me/delete-profile-picture`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -244,7 +245,7 @@ const Settings = () => {
 
   const deleteHeroImage = async () => {
     try {
-      await axios.delete('http://localhost:8000/users/me/delete-hero-image', {
+      await axios.delete(`${API_BASE_URL}/users/me/delete-hero-image`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -342,7 +343,7 @@ const Settings = () => {
   const handleSave = async () => {
     setLoading(true);
     try {
-      await axios.post('http://localhost:8000/users/me/onboarding', userProfile, {
+      await axios.post(`${API_BASE_URL}/users/me/onboarding`, userProfile, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Settings saved successfully!');
@@ -366,7 +367,7 @@ const Settings = () => {
     // If it's already a full URL, return as is
     if (relativeUrl.startsWith('http')) return relativeUrl;
     // Otherwise, prepend the backend URL
-    return `http://localhost:8000${relativeUrl}`;
+    return `${API_BASE_URL}${relativeUrl}`;
   };
 
   const getProfileDisplay = () => {

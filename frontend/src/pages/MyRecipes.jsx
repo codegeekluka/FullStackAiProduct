@@ -8,6 +8,7 @@ import TagPills from "../components/ui/TagPills";
 import TimeDropdown from "../components/ui/TimeDropdown";
 import PillNav from "../components/layout/PillNav.jsx";
 import BottomNav from "../components/layout/BottomNav.jsx";
+import { API_BASE_URL } from "../config/api";
 
 export default function MyRecipes() {
   const { recipes, setNavOrigin, fetchUserRecipes, user, userProfile } = useContext(AuthContext);
@@ -26,7 +27,7 @@ export default function MyRecipes() {
     // If it's already a full URL, return as is
     if (relativeUrl.startsWith('http')) return relativeUrl;
     // Otherwise, prepend the backend URL
-    return `http://localhost:8000${relativeUrl}`;
+    return `${API_BASE_URL}${relativeUrl}`;
   };
 
   // Get hero image with fallbacks

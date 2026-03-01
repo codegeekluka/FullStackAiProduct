@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PreferencesStep from './PreferencesStep';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/onboarding/Onboarding.css';
 import '../../styles/onboarding/shared.css';
 
@@ -39,7 +40,7 @@ const Onboarding = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.patch('http://localhost:8000/users/me/onboarding-complete', {}, {
+      await axios.patch(`${API_BASE_URL}/users/me/onboarding-complete`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -57,7 +58,7 @@ const Onboarding = () => {
       const token = localStorage.getItem('token');
       
       // Submit onboarding data to backend
-      await axios.patch('http://localhost:8000/users/me/onboarding-complete', formData, {
+      await axios.patch(`${API_BASE_URL}/users/me/onboarding-complete`, formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       

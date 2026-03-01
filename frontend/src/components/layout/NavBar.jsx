@@ -2,6 +2,7 @@ import '../../styles/layout/NavBar.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext, useState, useEffect, useRef } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
+import { API_BASE_URL } from '../../config/api'
 import { createPortal } from 'react-dom'
 
 
@@ -44,7 +45,7 @@ const Navbar = () => {
         // If it's already a full URL, return as is
         if (relativeUrl.startsWith('http')) return relativeUrl;
         // Otherwise, prepend the backend URL
-        return `http://localhost:8000${relativeUrl}`;
+        return `${API_BASE_URL}${relativeUrl}`;
     };
 
     const getProfileDisplay = () => {

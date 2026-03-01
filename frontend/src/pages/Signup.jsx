@@ -2,7 +2,8 @@ import { useState, useContext } from "react";
 import '../styles/auth/Signup.css';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
-import { AuthContext } from "../contexts/AuthContext"
+import { AuthContext } from "../contexts/AuthContext";
+import { API_BASE_URL } from "../config/api";
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -52,14 +53,14 @@ const Signup = () => {
 
     try {
         //register the user
-        await axios.post('http://localhost:8000/register', {
+        await axios.post(`${API_BASE_URL}/register`, {
             username: username,
             password: password1,
         });
 
         //Log the user in
         const loginRes = await axios.post(
-            "http://localhost:8000/login",
+            `${API_BASE_URL}/login`,
             new URLSearchParams({
               username,
               password: password1,

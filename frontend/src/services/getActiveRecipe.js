@@ -1,9 +1,10 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config/api";
 
 export async function getActiveRecipe(token) {
   try {
     const response = await axios.get(
-      "http://localhost:8000/user/active-recipe",
+      `${API_BASE_URL}/user/active-recipe`,
       {
         headers: { Authorization: `Bearer ${token}` }
       }

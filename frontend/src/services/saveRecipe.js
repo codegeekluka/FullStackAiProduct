@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config/api";
 
 /**
  * Save a recipe to the backend.
@@ -33,11 +34,11 @@ export async function saveRecipeService(draftRecipe, slug, token) {
   try {
     if (slug === "new") {
 
-      const res = await axios.post("http://localhost:8000/recipe/manualRecipe", updatePayload, config);
+      const res = await axios.post(`${API_BASE_URL}/recipe/manualRecipe`, updatePayload, config);
       console.log("the error: ", res.data)
       return res.data;
     } else {
-      const res = await axios.put(`http://localhost:8000/recipes/${slug}`, updatePayload, config);
+      const res = await axios.put(`${API_BASE_URL}/recipes/${slug}`, updatePayload, config);
       return res.data;
     }
   } catch(err) {

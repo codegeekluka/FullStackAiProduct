@@ -14,6 +14,7 @@ import ChatInput from '../components/ai/ChatInput.jsx';
 import RecipeActivationModal from '../components/ai/RecipeActivationModal.jsx';
 import UpgradeModal from '../components/ui/UpgradeModal.jsx';
 import subscriptionService from '../services/subscriptionService';
+import { API_BASE_URL } from '../config/api';
 
 const Cheffy = () => {
   const { userProfile } = useContext(AuthContext);
@@ -60,7 +61,7 @@ const Cheffy = () => {
     // If it's already a full URL, return as is
     if (relativeUrl.startsWith('http')) return relativeUrl;
     // Otherwise, prepend the backend URL
-    return `http://localhost:8000${relativeUrl}`;
+    return `${API_BASE_URL}${relativeUrl}`;
   };
 
   // Get hero image with fallbacks

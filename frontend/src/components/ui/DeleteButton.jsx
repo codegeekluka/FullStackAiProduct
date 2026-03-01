@@ -2,7 +2,8 @@ import '../../styles/ui/DeleteButton.css'
 import { useState } from 'react'
 import { useNavigate, useParams} from 'react-router-dom';
 import DeleteModal from './DeleteModal';
-import axios from "axios"
+import axios from "axios";
+import { API_BASE_URL } from "../../config/api";
 
 
 const DeleteButton = () => {
@@ -21,7 +22,7 @@ const DeleteButton = () => {
   const handleDeleteConfirm = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:8000/recipes/${slug}`, {
+      await axios.delete(`${API_BASE_URL}/recipes/${slug}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

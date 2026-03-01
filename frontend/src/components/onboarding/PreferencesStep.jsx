@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import ProfileSection from './ProfileSection';
 import ReviewSection from './ReviewSection';
+import { API_BASE_URL } from '../../config/api';
 import '../../styles/onboarding/shared.css';
 import '../../styles/onboarding/PreferencesStep.css';
 
@@ -20,7 +21,7 @@ const PreferencesStep = ({ formData, updateFormData, onPrev, onSkip, onComplete,
 
   const fetchPreferenceOptions = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8000/users/me/preferences/options', {
+      const response = await axios.get(`${API_BASE_URL}/users/me/preferences/options`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Preference options fetched:', response.data);
