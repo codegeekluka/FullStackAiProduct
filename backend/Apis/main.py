@@ -30,15 +30,18 @@ app = FastAPI(
 )
 
 # CORS control: meaning we cant have outside applications hitting our fastapi, without us saying this application is allowed to make calls to our endpoints, protects from outside users
+_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+if os.getenv("FRONTEND_URL"):
+    _origins.append(os.getenv("FRONTEND_URL").rstrip("/"))
 app.add_middleware(
     CORSMiddleware,
     # allow all types requsts if its from our frontend
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
+    allow_origins=_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
