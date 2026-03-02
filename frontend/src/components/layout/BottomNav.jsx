@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../../styles/layout/BottomNav.css';
+import chefIcon from '../../assets/chef.svg';
 
 const BottomNav = () => {
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ const BottomNav = () => {
         aria-label="Cheffy AI Assistant"
       >
         <div className="cta-button-inner">
-          <img src="/src/assets/chef.png" alt="Chef" width="24" height="24" />
+          <img src={chefIcon} alt="Chef" width="24" height="24" />
         </div>
       </button>
     </div>
