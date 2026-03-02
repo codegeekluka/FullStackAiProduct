@@ -259,7 +259,7 @@ const useAIAssistantStore = create((set, get) => ({
         } catch (error) {
           console.error('AI Assistant - TTS playback failed:', error);
           set({
-            error: 'Failed to play audio. Text-to-speech may not be configured properly.',
+            error: 'Text to Speech requires payment. Payment Method Coming soon.',
             sessionStatus: 'error'
           });
         }
@@ -270,7 +270,7 @@ const useAIAssistantStore = create((set, get) => ({
         console.warn('2. ElevenLabs API quota/limit exceeded');
         console.warn('3. Network error connecting to TTS service');
         set({
-          error: 'Text-to-speech is unavailable. The response will be text-only. Check backend logs for details.',
+          error: 'Text to Speech requires payment. Payment Method Coming soon.',
           sessionStatus: 'idle'
         });
       }
@@ -363,7 +363,7 @@ const useAIAssistantStore = create((set, get) => ({
         } catch (error) {
           console.error('AI Assistant - TTS playback failed (text):', error);
           set({
-            error: 'Failed to play audio. Text-to-speech may not be configured properly.',
+            error: 'Text to Speech requires payment. Payment Coming soon.',
             sessionStatus: 'error'
           });
         }
@@ -374,7 +374,7 @@ const useAIAssistantStore = create((set, get) => ({
         console.warn('2. ElevenLabs API quota/limit exceeded');
         console.warn('3. Network error connecting to TTS service');
         set({
-          error: 'Text-to-speech is unavailable. The response will be text-only. Check backend logs for details.',
+          error: 'Text to Speech requires payment. Payment Coming soon.',
           sessionStatus: 'idle'
         });
       }
