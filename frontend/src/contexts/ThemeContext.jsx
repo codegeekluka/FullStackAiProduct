@@ -7,7 +7,7 @@ const ThemeContext = createContext();
 export { ThemeContext };
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState('system');
+  const [theme, setTheme] = useState('light');
   const [isLoading, setIsLoading] = useState(true);
 
   // Get the actual theme to apply (resolves 'system' to light/dark)
@@ -21,7 +21,7 @@ export const ThemeProvider = ({ children }) => {
   // Initialize theme from localStorage or system preference
   const initializeTheme = useCallback(() => {
     const storedTheme = localStorage.getItem('theme');
-    const initialTheme = storedTheme || 'system';
+    const initialTheme = storedTheme || 'light';
     setTheme(initialTheme);
     setIsLoading(false);
   }, []);
