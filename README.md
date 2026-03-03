@@ -130,6 +130,5 @@ See `/docs/setup/` for detailed configuration guides:
 3. Run performance tests before submitting changes
 4. Update documentation as needed
 
-## 📄 **License**
 
-[Add your license information here]
+
