@@ -1,4 +1,4 @@
-# Recipe App
+# Full-stack AI product — React, FastAPI, pgvector, OpenAI, ElevenLabs
 
 **Live app:** [Try it here] https://recipe-app-fawn-six.vercel.app/ (when signing up may take upto 1 min for server to start up)
 
