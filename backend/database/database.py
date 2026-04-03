@@ -2,7 +2,7 @@ import pgvector.sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-from backend.database.config import DATABASE_URL
+from backend.database.config import DATABASE_URL, DB_CONNECT_ARGS
 
 Base = declarative_base()
 # Render Postgres has a low connection limit; huge pools cause SSL drops and 500s.
@@ -14,10 +14,7 @@ engine = create_engine(
     pool_recycle=300,
     pool_timeout=30,
     echo=False,
-    connect_args={
-        "connect_timeout": 10,
-        "application_name": "recipe_app_api",
-    },
+    connect_args=DB_CONNECT_ARGS,
 )
 SessionLocal = sessionmaker(
     bind=engine,
