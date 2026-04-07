@@ -24,7 +24,7 @@ const RecipeCard = ({recipe, onClick }) => {
   return (
     <div className="recipe-card" onClick={onClick}>
       <div className="recipe-image-container">
-        <img className="recipe-image" src={recipe.image || '/pexels-valeriya-842571.jpg'} alt={recipe.title} />
+        <img className="recipe-image" src={recipe.image || '/default-recipe-image.svg'} alt={recipe.title} />
         {recipe.favorite && (
           <button 
             className="favorite-button" 

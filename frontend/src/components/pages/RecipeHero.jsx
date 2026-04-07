@@ -26,7 +26,7 @@ export default function RecipeHero({ recipe, tags, onAddTag, onRemoveTag, editMo
 
   return (
     <div className="recipe-hero">
-      <img src={recipe.image || '/pexels-valeriya-842571.jpg'} alt="Recipe" />
+      <img src={recipe.image || '/default-recipe-image.svg'} alt="Recipe" />
 
       <div className="top-buttons">
         {!editMode ? (

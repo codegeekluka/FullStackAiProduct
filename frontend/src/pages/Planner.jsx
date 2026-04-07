@@ -332,7 +332,7 @@ const Planner = () => {
                         {mealPlan[day.dateString]?.lunch ? (
                           <div className="planned-meal">
                             <img 
-                              src={mealPlan[day.dateString].lunch.image || '/pexels-valeriya-842571.jpg'} 
+                              src={mealPlan[day.dateString].lunch.image || '/default-recipe-image.svg'} 
                               alt={mealPlan[day.dateString].lunch.title}
                               className="meal-image"
                             />
@@ -353,7 +353,7 @@ const Planner = () => {
                         {mealPlan[day.dateString]?.dinner ? (
                           <div className="planned-meal">
                             <img 
-                              src={mealPlan[day.dateString].dinner.image || '/pexels-valeriya-842571.jpg'} 
+                              src={mealPlan[day.dateString].dinner.image || '/default-recipe-image.svg'} 
                               alt={mealPlan[day.dateString].dinner.title}
                               className="meal-image"
                             />

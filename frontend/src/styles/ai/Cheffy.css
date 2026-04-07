@@ -93,6 +93,60 @@
   border: none;
 }
 
+.assistant-error-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  max-width: 360px;
+  width: calc(100% - 32px);
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(239, 68, 68, 0.95);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+  z-index: 2000;
+  animation: assistantToastIn 180ms ease-out;
+}
+
+.assistant-error-toast-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.assistant-error-toast-message {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  padding-right: 20px;
+}
+
+.assistant-error-toast-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.assistant-error-toast-close:hover {
+  opacity: 1;
+}
+
+@keyframes assistantToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes pulse {
   0% {
     background-position: 0% 50%;
@@ -147,6 +201,12 @@
   
   .cheffy-hero p {
     font-size: 1rem;
+  }
+
+  .assistant-error-toast {
+    right: 12px;
+    bottom: 92px;
+    width: calc(100% - 24px);
   }
 }
 

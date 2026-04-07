@@ -78,7 +78,7 @@ const PlannerRecipeCard = ({ recipe, isSelected, onSelect }) => {
       <div className="recipe-image-container">
         <img 
           className="recipe-image" 
-          src={recipe.image || '/pexels-valeriya-842571.jpg'} 
+          src={recipe.image || '/default-recipe-image.svg'} 
           alt={recipe.title} 
         />
         <button className={`add-button ${isSelected ? 'selected' : ''}`}>

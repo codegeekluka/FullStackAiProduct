@@ -24,7 +24,7 @@ const RecipeSelectionModal = ({ isOpen, onClose, mealType, onCreatePlan, current
     {
       id: 'suggested-1',
       title: 'Pork Street Tacos',
-      image: '/pexels-valeriya-842571.jpg',
+      image: '/default-recipe-image.svg',
       total_time: '40 min',
       difficulty: 'Medium',
       tags: ['pork', 'mexican', 'spicy'],
@@ -34,7 +34,7 @@ const RecipeSelectionModal = ({ isOpen, onClose, mealType, onCreatePlan, current
     {
       id: 'suggested-2',
       title: 'Mediterranean Quinoa Bowl',
-      image: '/pexels-valeriya-842571.jpg',
+      image: '/default-recipe-image.svg',
       total_time: '30 min',
       difficulty: 'Easy',
       tags: ['vegetarian', 'healthy', 'mediterranean'],
@@ -44,7 +44,7 @@ const RecipeSelectionModal = ({ isOpen, onClose, mealType, onCreatePlan, current
     {
       id: 'suggested-3',
       title: 'Beef Stir Fry',
-      image: '/pexels-valeriya-842571.jpg',
+      image: '/default-recipe-image.svg',
       total_time: '25 min',
       difficulty: 'Easy',
       tags: ['beef', 'asian', 'quick'],
@@ -54,7 +54,7 @@ const RecipeSelectionModal = ({ isOpen, onClose, mealType, onCreatePlan, current
     {
       id: 'suggested-4',
       title: 'Fish Tacos',
-      image: '/pexels-valeriya-842571.jpg',
+      image: '/default-recipe-image.svg',
       total_time: '35 min',
       difficulty: 'Medium',
       tags: ['fish', 'mexican', 'healthy'],
@@ -479,7 +479,7 @@ const RecipeSelectionModal = ({ isOpen, onClose, mealType, onCreatePlan, current
                         cursor: isAssigned ? 'not-allowed' : 'grab'
                       }}
                     >
-                      <img src={recipe.image || '/pexels-valeriya-842571.jpg'} alt={recipe.title} />
+                      <img src={recipe.image || '/default-recipe-image.svg'} alt={recipe.title} />
                       <span>{recipe.title}</span>
                     </div>
                   );
@@ -506,7 +506,7 @@ const RecipeSelectionModal = ({ isOpen, onClose, mealType, onCreatePlan, current
                       {dayAssignments[day.dateString] ? (
                         <div className="assigned-meal">
                           <img 
-                            src={dayAssignments[day.dateString].image || '/pexels-valeriya-842571.jpg'} 
+                            src={dayAssignments[day.dateString].image || '/default-recipe-image.svg'} 
                             alt={dayAssignments[day.dateString].title}
                           />
                           <span>{dayAssignments[day.dateString].title}</span>

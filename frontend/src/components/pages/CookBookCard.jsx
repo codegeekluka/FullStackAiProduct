@@ -6,7 +6,7 @@ export default function CookBookCard({ recipe, onClick }) {
   return (
     <div className="my-recipe-card" onClick={onClick}>
       <div className="my-recipe-card-image">
-        <img src={recipe.image || '/pexels-valeriya-842571.jpg'} alt={recipe.title} />
+        <img src={recipe.image || '/default-recipe-image.svg'} alt={recipe.title} />
       </div>
 
       <h3 className="my-recipe-card-title">{recipe.title.length > 30 ? recipe.title.substring(0, 30) + "..." : recipe.title}</h3>

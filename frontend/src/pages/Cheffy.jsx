@@ -51,9 +51,11 @@ const Cheffy = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [showRecipeModal, setShowRecipeModal] = useState(false);
   const [isLoadingSubscription, setIsLoadingSubscription] = useState(true);
+  const [toastError, setToastError] = useState('');
   const messagesEndRef = React.useRef(null);
   const inputRef = React.useRef(null);
   const sessionIdRef = React.useRef(null);
+  const errorTimeoutRef = React.useRef(null);
 
   // Helper function to construct full image URL
   const getImageUrl = (relativeUrl) => {
@@ -128,9 +130,34 @@ const Cheffy = () => {
     sessionIdRef.current = sessionId;
   }, [sessionId]);
 
+  // Show assistant errors as temporary toast instead of full-page error.
+  useEffect(() => {
+    if (!error) return;
+
+    setToastError(error);
+
+    if (errorTimeoutRef.current) {
+      clearTimeout(errorTimeoutRef.current);
+    }
+
+    errorTimeoutRef.current = setTimeout(() => {
+      setToastError('');
+      clearError();
+    }, 5000);
+
+    return () => {
+      if (errorTimeoutRef.current) {
+        clearTimeout(errorTimeoutRef.current);
+      }
+    };
+  }, [error, clearError]);
+
   // Handle session cleanup on unmount
   useEffect(() => {
     return () => {
+      if (errorTimeoutRef.current) {
+        clearTimeout(errorTimeoutRef.current);
+      }
       // Only end session on actual component unmount, not on re-renders
       if (sessionIdRef.current) {
         endSession();
@@ -392,22 +419,6 @@ const Cheffy = () => {
     }
   };
 
-  if (error) {
-    return (
-      <div className="cheffy-container">
-        <PillNav />
-        <BottomNav />
-        <div className="ai-assistant-error">
-          <div className="error-content">
-            <h3>AI Assistant Error</h3>
-            <p>{error}</p>
-            <button onClick={clearError}>Try Again</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="cheffy-container">
       {/* Hero Section */}
@@ -644,6 +655,23 @@ const Cheffy = () => {
              .catch(err => console.error('Failed to refresh subscription:', err));
          }}
        />
+
+       {toastError && (
+         <div className="assistant-error-toast" role="alert" aria-live="assertive">
+           <div className="assistant-error-toast-title">AI Assistant Error</div>
+           <div className="assistant-error-toast-message">{toastError}</div>
+           <button
+             className="assistant-error-toast-close"
+             onClick={() => {
+               setToastError('');
+               clearError();
+             }}
+             aria-label="Dismiss assistant error"
+           >
+             x
+           </button>
+         </div>
+       )}
      </div>
    );
  };
